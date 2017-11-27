@@ -27,6 +27,6 @@ module.exports.init = function(app) {
 
     });
 
-    console.log(logRoutes);
+    console.log(logRoutes.join('\n'));
 
 }

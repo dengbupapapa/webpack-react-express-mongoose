@@ -41,11 +41,11 @@ const store = configureStore();
 fetch.default({
     uriPrefix: '/api'
 });
-fetch('/async/post', {
-        method: 'GET'
-    })
-    .then((response) => response.json())
-    .then((json) => console.log(json));
+// fetch('/async/post', {
+//         method: 'GET'
+//     })
+//     .then((response) => response.json())
+//     .then((json) => console.log(json));
 
 render(
     <Provider store={store}>
