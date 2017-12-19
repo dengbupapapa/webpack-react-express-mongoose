@@ -10,9 +10,6 @@ var db = mongoose.connect(config.dbUri, {
 });
 mongoose.Promise = global.Promise;
 /* Use `db`, for instance `db.model()`*/
-db.once('open', () => {
-    console.log('连接数据库成功')
-})
 
 db.on('error', (error) => {
     console.error('Error in MongoDb connection: ' + error);
@@ -27,4 +24,13 @@ db.on('close', () => {
     });
 });
 
-module.exports = db;
+function openDB(cb) {
+
+    db.once('open', () => {
+        console.log('连接数据库成功')
+        cb();
+    })
+
+}
+
+module.exports = openDB;

@@ -4,7 +4,7 @@ path = require('path');
 webpack = require('webpack');
 configLite = require('config-lite');
 config = configLite(__dirname);
-
+// console.log('+++++++++++++++++++++++', process.env.npm_config_argv);
 module.exports = {
     // cache: true,
     context: path.join(__dirname, '../source'),
@@ -67,7 +67,9 @@ module.exports = {
         new webpack.DefinePlugin({
             'process.env': {
                 NODE_ENV: JSON.stringify(process.env.NODE_ENV)
-            }
+            },
+            'notTemplateRequestUriPrefix': JSON.stringify(config.notTemplateRequestUriPrefix),
+            'needTool': process.env.npm_config_argv == '--tool'
         }),
         new webpack.ProvidePlugin({
             'React': 'react',

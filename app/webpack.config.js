@@ -42,10 +42,10 @@ if (config.env) {
         }
     }
 
-    webpackConfigBase.module.loaders[2].loader = 'style-loader!css-loader';
-    webpackConfigBase.module.loaders[3].loader = 'style-loader!css-loader!less-loader';
-    webpackConfigBase.module.loaders[4].loader = 'style-loader!css-loader';
-    webpackConfigBase.module.loaders[5].loader = 'style-loader!css-loader!less-loader';
+    webpackConfigBase.module.loaders[2].loader = 'style-loader!css-loader!postcss-loader';
+    webpackConfigBase.module.loaders[3].loader = 'style-loader!css-loader!less-loader!postcss-loader';
+    webpackConfigBase.module.loaders[4].loader = 'style-loader!css-loader!postcss-loader';
+    webpackConfigBase.module.loaders[5].loader = 'style-loader!css-loader!less-loader!postcss-loader';
 
 } else {
 
@@ -62,10 +62,10 @@ if (config.env) {
         })
     );
 
-    webpackConfigBase.module.loaders[2].loader = ExtractTextPlugin.extract(['css-loader]']);
-    webpackConfigBase.module.loaders[3].loader = ExtractTextPlugin.extract(['css-loader', 'less-loader']);
-    webpackConfigBase.module.loaders[4].loader = ExtractTextPlugin.extract(['css-loader']);
-    webpackConfigBase.module.loaders[5].loader = ExtractTextPlugin.extract(['css-loader', 'less-loader']);
+    webpackConfigBase.module.loaders[2].loader = ExtractTextPlugin.extract(['css-loader', 'postcss-loader']);
+    webpackConfigBase.module.loaders[3].loader = ExtractTextPlugin.extract(['css-loader', 'less-loader', 'postcss-loader']);
+    webpackConfigBase.module.loaders[4].loader = ExtractTextPlugin.extract(['css-loader', 'postcss-loader']);
+    webpackConfigBase.module.loaders[5].loader = ExtractTextPlugin.extract(['css-loader', 'less-loader', 'postcss-loader']);
 
 }
 

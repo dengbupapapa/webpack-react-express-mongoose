@@ -8,7 +8,7 @@ module.exports.init = function(app) {
     let dirname = __dirname.match(/.*\/(.*)/)[1];
     let reg = new RegExp(dirname + '(\/.*)');
 
-    let files = glob.sync(path.join(__dirname, '@(**|!index.js)/**'), {
+    let files = glob.sync(path.join(__dirname, '{**,!index.js}'), {
         nodir: true
     });
 

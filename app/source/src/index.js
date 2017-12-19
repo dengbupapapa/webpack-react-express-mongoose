@@ -33,25 +33,25 @@ const store = configureStore();
 //         return a + b;
 //     }
 // }
-
+// console.log(needTool)
 // const math = new Math();
 
 // // passed parameters should get logged now
 // math.add(2, 4);
 fetch.default({
-    uriPrefix: '/api'
+    uriPrefix: notTemplateRequestUriPrefix
 });
-// fetch('/async/post', {
-//         method: 'GET'
-//     })
-//     .then((response) => response.json())
-//     .then((json) => console.log(json));
+fetch('/post', {
+        method: 'GET'
+    })
+    .then((response) => response.json())
+    .then((json) => console.log(json));
 
 render(
     <Provider store={store}>
         <div>
             <Router history={browserHistory} routes={rootRouter}/>
-            {process.env.NODE_ENV=='development'?<DevTools/>:null}
+            {/*process.env.NODE_ENV=='development'?<DevTools/>:null*/}
         </div>
     </Provider>,
     document.getElementById('Root')

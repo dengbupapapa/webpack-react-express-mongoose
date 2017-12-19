@@ -5,10 +5,9 @@ const logger = require('morgan');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
 const connectMongo = require('connect-mongo');
-const db = require('./mongoose/db.js');
 
-const middleware = require('./middleware/index.js');
-const controller = require('./controller/index.js');
+const middleware = require('./controller/middleware/index.js');
+const controller = require('./controller/async/index.js');
 // const url = require('url');
 const useResources = require('../useResources.js');
 const configLite = require('config-lite');
@@ -28,14 +27,7 @@ app.use(session({
     resave: true,
     saveUninitialized: false,
     cookie: config.session.cookie,
-    store: new MongoStore({
-        // url: config.url
-        url: 'mongodb://localhost:27017/session',
-        // autoRemove: 'native'
-        // host: 'mongodb://localhost', //数据库的地址，本机的话就是127.0.0.1，也可以是网络主机
-        // port: 27017, //数据库的端口号
-        // db: 'session' //数据库的名称。
-    })
+    store: new MongoStore(config.MongoStoreArg)
 }))
 
 app.use(logger('dev'));

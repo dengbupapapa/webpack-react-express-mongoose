@@ -5,6 +5,7 @@ module.exports = {
     devWebpackProxyHost: 'localhost',
     port: 8686,
     notTemplateRequestUriPrefix: '/api',
+    needTool: JSON.parse(process.env.npm_config_argv).cooked[2] == '--tool',
     session: {
         name: 'dbp',
         secret: 'dbp',
@@ -14,5 +15,8 @@ module.exports = {
             maxAge: 365 * 24 * 60 * 60 * 1000,
         }
     },
-    dbUri: 'mongodb://localhost:27017/refdemo'
+    dbUri: 'mongodb://localhost:27017/refdemo',
+    MongoStoreArg: {
+        url: 'mongodb://localhost:27017/session'
+    }
 }

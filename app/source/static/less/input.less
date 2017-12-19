@@ -1,8 +1,25 @@
 @import 'baseConfig.less';
 
-.input-main{
-    width: 100px;
-    &.focus{
-        background: @colour-blue;
+input{
+    outline:none;
+    height: 0.55rem;
+    border:none;
+    &.primary{
     }
+}
+
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+    color: #999;
+}
+
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+    color: #999;
+}
+
+input:-ms-input-placeholder{
+    color: #999;
+}
+
+input::-webkit-input-placeholder{
+    color: #999;
 }
