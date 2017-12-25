@@ -20,6 +20,7 @@
             flex:1;
             text-align: center;
             line-height: 0.95rem;
+            color:#fff;
         }
     }
     .project-index-content{
@@ -39,7 +40,25 @@
                 height:1rem;
                 padding:0.25rem;
                 background: #fff;
-                border-bottom: solid 1px #dedfe0;
+                border-bottom: solid 1px blue;
+                position: relative;
+                &:before {
+                  content: '';
+                  position: absolute;
+                  left: 0;
+                  top: 0;
+                  bottom: auto;
+                  right: auto;
+                  height: 1px;
+                  width: 100%;
+                  background-color: red;
+                  display: block;
+                  z-index: 15;
+                  webkit-transform: scaleY(0.5);
+                    transform: scaleY(0.5);
+                  -webkit-transform-origin: 50% 0%;
+                          transform-origin: 50% 0%;
+                }
             }
         }
     }
