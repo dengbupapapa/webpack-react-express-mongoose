@@ -1,7 +1,7 @@
 import {
     // SEND_ASYNC_ACTION,
     LOAD_ING_ACTION
-} from 'rActions/loadIng';
+} from '@Actions/loadIng';
 
 export const loadIngAction = (open = false, action) => {
     switch (action.type) {

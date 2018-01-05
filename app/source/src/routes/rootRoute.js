@@ -9,7 +9,7 @@ const routes = {
     indexRoute: {
         getComponent(nextState, callback) {
             require.ensure([], (require) => {
-                callback(null, require('useModule/index/index').default)
+                callback(null, require('@uses/index/index').default)
             }, 'use/index')
         },
     },
@@ -18,12 +18,12 @@ const routes = {
     //         callback(null, require('sModule/public/common/headFoot').default)
     //     }, 'common/headFoot')
     // },
-    childRoutes: [
-        require('./login').default,
-        require('./System/index').default,
-        require('./RouterErrer').default,
-        require('./RouterRedirectErrer').default
-    ]
+    // childRoutes: [
+    //     require('./login').default,
+    //     require('./System/index').default,
+    //     require('./RouterErrer').default,
+    //     require('./RouterRedirectErrer').default
+    // ]
 }
 
 export default routes

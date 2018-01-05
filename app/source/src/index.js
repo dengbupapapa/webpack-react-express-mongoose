@@ -12,7 +12,7 @@ import {
     IndexRoute,
     browserHistory
 } from 'react-router';
-import rootRouter from 'sRoutes/rootRoute';
+import rootRouter from '@Routes/rootRoute';
 import configureStore from './redux/createStore';
 
 const store = configureStore();

@@ -24,28 +24,28 @@ if (config.env) {
                 ["react-transform", {
                     // must be an array of objects
                     "transforms": [{
-                            // can be an NPM module name or a local path
-                            "transform": "react-transform-hmr",
-                            // see transform docs for "imports" and "locals" dependencies
-                            "imports": ["react"],
-                            "locals": ["module"]
-                        }, {
-                            // you can have many transforms, not just one
-                            "transform": "react-transform-catch-errors",
-                            "imports": ["react", "redbox-react"]
-                        }]
-                        // by default we only look for `React.createClass` (and ES6 classes)
-                        // but you can tell the plugin to look for different component factories:
-                        // factoryMethods: ["React.createClass", "createClass"]
+                        // can be an NPM module name or a local path
+                        "transform": "react-transform-hmr",
+                        // see transform docs for "imports" and "locals" dependencies
+                        "imports": ["react"],
+                        "locals": ["module"]
+                    }, {
+                        // you can have many transforms, not just one
+                        "transform": "react-transform-catch-errors",
+                        "imports": ["react", "redbox-react"]
+                    }]
+                    // by default we only look for `React.createClass` (and ES6 classes)
+                    // but you can tell the plugin to look for different component factories:
+                    // factoryMethods: ["React.createClass", "createClass"]
                 }]
             ]
         }
     }
 
     webpackConfigBase.module.loaders[2].loader = 'style-loader!css-loader!postcss-loader';
-    webpackConfigBase.module.loaders[3].loader = 'style-loader!css-loader!less-loader!postcss-loader';
+    webpackConfigBase.module.loaders[3].loader = 'style-loader!css-loader!postcss-loader!less-loader';
     webpackConfigBase.module.loaders[4].loader = 'style-loader!css-loader!postcss-loader';
-    webpackConfigBase.module.loaders[5].loader = 'style-loader!css-loader!less-loader!postcss-loader';
+    webpackConfigBase.module.loaders[5].loader = 'style-loader!css-loader!postcss-loader!less-loader';
 
 } else {
 
@@ -63,9 +63,9 @@ if (config.env) {
     );
 
     webpackConfigBase.module.loaders[2].loader = ExtractTextPlugin.extract(['css-loader', 'postcss-loader']);
-    webpackConfigBase.module.loaders[3].loader = ExtractTextPlugin.extract(['css-loader', 'less-loader', 'postcss-loader']);
+    webpackConfigBase.module.loaders[3].loader = ExtractTextPlugin.extract(['css-loader', 'postcss-loader', 'less-loader']);
     webpackConfigBase.module.loaders[4].loader = ExtractTextPlugin.extract(['css-loader', 'postcss-loader']);
-    webpackConfigBase.module.loaders[5].loader = ExtractTextPlugin.extract(['css-loader', 'less-loader', 'postcss-loader']);
+    webpackConfigBase.module.loaders[5].loader = ExtractTextPlugin.extract(['css-loader', 'postcss-loader', 'less-loader']);
 
 }
 

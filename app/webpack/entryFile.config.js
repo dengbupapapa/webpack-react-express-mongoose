@@ -17,7 +17,6 @@ excludeLess = ['reset'];
 urls.forEach(function(item) {
 
     let matchs = item.match(/static\/less\/(.+)\.(css|less)$/);
-
     if (!excludeLess.includes(matchs[1])) files.push('./' + matchs[0]);
 
 });

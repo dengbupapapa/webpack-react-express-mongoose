@@ -1,0 +1,18 @@
+.px2px(@name, @px){
+    @{name}: round(@px) * 1px;
+    [data-dpr="1"] & {
+        @{name}: round(@px) * 1px;
+    }
+    [data-dpr="2"] & {
+        @{name}: round(@px*2) * 1px;
+    }
+    [data-dpr="3"] & {
+        @{name}: round(@px * 3) * 1px
+    }
+    [data-dpr="4"] & {
+        @{name}: round(@px *4) * 1px;
+    }
+}
+
+
+

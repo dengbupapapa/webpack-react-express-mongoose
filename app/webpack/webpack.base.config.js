@@ -18,20 +18,21 @@ module.exports = {
     resolve: {
         alias: {
             //src下目录
-            'rActions': path.join(__dirname, '../source/src/redux/actions'),
-            'rReducers': path.join(__dirname, '../source/src/redux/reducers'),
-            'rMiddleware': path.join(__dirname, '../source/src/redux/middleware'),
-            'sRoutes': path.join(__dirname, '../source/src/routes'),
+            '@Actions': path.join(__dirname, '../source/src/redux/actions'),
+            '@Reducers': path.join(__dirname, '../source/src/redux/reducers'),
+            '@Middleware': path.join(__dirname, '../source/src/redux/middleware'),
+            '@Routes': path.join(__dirname, '../source/src/routes'),
             //static下目录
-            'jStatic': path.join(__dirname, '../source/static/javascript'),
-            'lStatic': path.join(__dirname, '../source/static/less'),
-            'iStatic': path.join(__dirname, '../source/static/images'),
-            'libStatic': path.join(__dirname, '../source/static/lib'),
+            '@js': path.join(__dirname, '../source/static/javascript'),
+            '@less': path.join(__dirname, '../source/static/less'),
+            '@imgs': path.join(__dirname, '../source/static/images'),
+            '@libs': path.join(__dirname, '../source/static/lib'),
             //module下目录
-            'useModule': path.join(__dirname, '../source/src/module/use'),
-            'widModule': path.join(__dirname, '../source/src/module/widget'),
+            '@uses': path.join(__dirname, '../source/src/module/use'),
+            '@widgets': path.join(__dirname, '../source/src/module/widget'),
         },
         extensions: ['', '.js', '.json', '.scss', '.css', '.less'],
+        // modulesDirectories: [path.join(__dirname, '../source/static/less')]
     },
     module: {
         //noParse: [],

@@ -2,8 +2,6 @@ import {
     Component
 } from 'react';
 
-import img from 'iStatic/banner1.jpg';
-
 import './index.less';
 
 import {
@@ -41,7 +39,6 @@ class index extends Component {
                     <div className='project-index-query'>
                         <input className="project-index-query-input" placeholder="搜索"/>
                     </div>
-                    <div style={{fontSize:"28px"}}>28px</div>
                     <ul className='project-index-list'>
                         <li className='project-index-list-li'>content..</li>
                         <li className='project-index-list-li'>content..</li>
@@ -79,7 +76,7 @@ import {
     createSelector,
     createStructuredSelector
 } from 'reselect'
-import * as actiontor from 'rActions/login';
+import * as actiontor from '@Actions/login';
 
 const loginState = (state) => state.login;
 

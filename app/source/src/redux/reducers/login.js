@@ -1,6 +1,6 @@
 import {
     SET_LOGIN_ACTIVE
-} from 'rActions/login'
+} from '@Actions/login'
 
 export const login = (index = 0, action) => {
     switch (action.type) {

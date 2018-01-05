@@ -1,6 +1,6 @@
 import {
     SET_WORK_DEMO_ACTION
-} from 'rActions/workDemo';
+} from '@Actions/workDemo';
 
 export const workDemo = (index = 0, action) => {
     switch (action.type) {

@@ -1,3 +1,6 @@
+@import '~@less/mixins.less';
+
+
 .project-index{
     display: flex;
     flex-direction: column;
@@ -37,10 +40,10 @@
         }
         .project-index-list{
             .project-index-list-li{
+                .px2px(font-size,14px);
                 height:1rem;
                 padding:0.25rem;
                 background: #fff;
-                border-bottom: solid 1px blue;
                 position: relative;
                 &:before {
                   content: '';
@@ -54,12 +57,9 @@
                   background-color: red;
                   display: block;
                   z-index: 15;
-                  webkit-transform: scaleY(0.5);
-                    transform: scaleY(0.5);
-                  -webkit-transform-origin: 50% 0%;
-                          transform-origin: 50% 0%;
                 }
             }
+
         }
     }
     .project-index-footer{
@@ -72,3 +72,4 @@
         height: 1rem;
     }
 }
+
