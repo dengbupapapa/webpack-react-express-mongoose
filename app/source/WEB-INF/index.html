@@ -33,7 +33,7 @@
             var docEl = document.documentElement;
             var metaAll = document.querySelectorAll('meta');
             var lastMeta = metaAll[metaAll.length-1];
-            var dpr = window.devicePixelRatio;
+            var dpr = window.devicePixelRatio||1;
             var scale = 1;
             var isAndroid = window.navigator.appVersion.match(/android/gi);
             var isIPhone = window.navigator.appVersion.match(/iphone/gi);

@@ -6,7 +6,7 @@ import {
     Component
 } from 'react';
 
-class app404 extends Component {
+class error extends Component {
     render() {
         return (
             <div>
@@ -18,4 +18,4 @@ class app404 extends Component {
     }
 }
 
-export default app404;
+export default error;

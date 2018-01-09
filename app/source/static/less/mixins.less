@@ -1,18 +1,94 @@
-.px2px(@name, @px){
-    @{name}: round(@px) * 1px;
+
+/*
+    css属性为值为px的转化mixin
+    @opts
+    @name:css属性名
+    @px:css属性值
+*/
+.dataDpr(@expression){
     [data-dpr="1"] & {
-        @{name}: round(@px) * 1px;
+        @dpr:1;
+        @expression(1);
     }
     [data-dpr="2"] & {
-        @{name}: round(@px*2) * 1px;
+        @dpr:2;
+        @expression(2);
     }
     [data-dpr="3"] & {
-        @{name}: round(@px * 3) * 1px
+        @dpr:3;
+        @expression(3);
     }
     [data-dpr="4"] & {
-        @{name}: round(@px *4) * 1px;
+        @dpr:4;
+        @expression(4);
     }
 }
 
+.px2px(@name, @px) when (isnumber(@px)), (ispixel(@px)) {
 
+    // @thatExpression:{
+    //     @{name}: unit(unit(@px)*@dpr,px)
+    // }
+
+    // .dataDpr(@thatExpression);
+    // @{name}: unit(unit(@px),px);
+    [data-dpr="1"] & {
+        @{name}: unit(unit(@px)*1,px);
+    }
+    [data-dpr="2"] & {
+        @{name}: unit(unit(@px)*2,px);
+    }
+    [data-dpr="3"] & {
+        @{name}: unit(unit(@px)*3,px);
+    }
+    [data-dpr="4"] & {
+        @{name}: unit(unit(@px)*4,px);
+    }
+
+}
+
+.px2px(@name, @px) when (length(@px)>1) {
+
+    .loop(@loopname, @n,@dpr) when (@n > 0) {
+        .loop(@loopname,@n - 1,@dpr);
+        @{loopname}+_: unit(unit(extract(@px,@n))*@dpr,px);
+    }
+    @counter:length(@px);
+
+    [data-dpr="1"] & {
+        .loop(@name,@counter,1);
+    }
+    [data-dpr="2"] & {
+        .loop(@name,@counter,2);
+    }
+    [data-dpr="3"] & {
+        .loop(@name,@counter,3);
+    }
+    [data-dpr="4"] & {
+        .loop(@name,@counter,4);
+    }
+
+}
+
+.px2px(@name, @px) when (default()) {
+    @{name}: @px;
+}
+
+
+/*
+    平铺元素mixin
+    @opts
+    @top:top值 default:0
+    @bottom:top值 default:0
+    @top:top值 default:0
+    @bottom:top值 default:0
+*/
+
+.repeatTag(@top:0,@bottom:0,@left:0,@right:0,@position:absolute){
+    .px2px(top,@top);
+    .px2px(bottom,@bottom);
+    .px2px(left,@left);
+    .px2px(right,@right);
+    position:@position;
+}
 

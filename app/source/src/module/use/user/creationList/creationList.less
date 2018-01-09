@@ -1,0 +1,40 @@
+@import '~@less/mixins.less';
+
+@titleHeight:50px;
+
+
+.project-creation-list-content{
+
+    .project-creation-list-query{
+        .px2px(padding,8px);
+        background: #fff;
+        display: flex;
+        .project-creation-list-query-input{
+            background: #eeeff3;
+            text-align: center;
+            color: #333;
+            flex:1;
+        }
+    }
+    .project-creation-list-ul{
+        display: flex;
+        flex-direction: column;
+        .project-creation-list-li{
+            .px2px(font-size,14px);
+            .px2px(padding,10px);
+            .px2px(height,50px);
+            flex:1;
+            background: #fff;
+            position: relative;
+            &:before {
+                .repeatTag(@bottom:auto);
+                height: 1px;
+                background-color: #ccc;
+                content: '';
+            }
+        }
+
+    }
+}
+
+

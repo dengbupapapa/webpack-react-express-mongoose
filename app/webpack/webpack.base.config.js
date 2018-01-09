@@ -4,9 +4,9 @@ path = require('path');
 webpack = require('webpack');
 configLite = require('config-lite');
 config = configLite(__dirname);
-// console.log('+++++++++++++++++++++++', process.env.npm_config_argv);
+
 module.exports = {
-    // cache: true,
+    cache: true,
     context: path.join(__dirname, '../source'),
     devtool: config.env ? 'inline-source-map' : 'source-map', //cheap-source-map
     output: {
@@ -18,10 +18,10 @@ module.exports = {
     resolve: {
         alias: {
             //src下目录
-            '@Actions': path.join(__dirname, '../source/src/redux/actions'),
-            '@Reducers': path.join(__dirname, '../source/src/redux/reducers'),
-            '@Middleware': path.join(__dirname, '../source/src/redux/middleware'),
-            '@Routes': path.join(__dirname, '../source/src/routes'),
+            '@actions': path.join(__dirname, '../source/src/redux/actions'),
+            '@reducers': path.join(__dirname, '../source/src/redux/reducers'),
+            '@middlewares': path.join(__dirname, '../source/src/redux/middleware'),
+            '@routes': path.join(__dirname, '../source/src/routes'),
             //static下目录
             '@js': path.join(__dirname, '../source/static/javascript'),
             '@less': path.join(__dirname, '../source/static/less'),
@@ -32,7 +32,6 @@ module.exports = {
             '@widgets': path.join(__dirname, '../source/src/module/widget'),
         },
         extensions: ['', '.js', '.json', '.scss', '.css', '.less'],
-        // modulesDirectories: [path.join(__dirname, '../source/static/less')]
     },
     module: {
         //noParse: [],

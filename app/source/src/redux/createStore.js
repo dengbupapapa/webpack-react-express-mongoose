@@ -3,13 +3,13 @@ import {
     applyMiddleware,
     compose
 } from 'redux';
-import rootReducer from '@Reducers/index';
+import rootReducer from '@reducers/index';
 
 import thunk from 'redux-thunk';
 import promiseMiddleware from 'redux-promise';
 import DevTools from './devTools';
-import log from '@Middleware/logger.js';
-import localStorageMde from '@Middleware/localStorageMde.js';
+import log from '@middlewares/logger.js';
+import localStorageMde from '@middlewares/localStorageMde.js';
 
 let applyMiddlewares = [thunk, promiseMiddleware, localStorageMde];
 
@@ -31,8 +31,8 @@ export default initialState => {
 
     //热替换选项
     if (module.hot) {
-        module.hot.accept('@Reducers/index', () => {
-            const nextReducer = require('@Reducers/index').default
+        module.hot.accept('@reducers/index', () => {
+            const nextReducer = require('@reducers/index').default
             store.replaceReducer(nextReducer)
         })
     }

@@ -1,5 +1,5 @@
-const errer = {
-    path: 'errer',
+const error = {
+    path: 'error',
     // getChildRoutes(partialNextState, cb) {
     //   require.ensure([], (require) => {
     //     cb(null, [
@@ -11,9 +11,9 @@ const errer = {
 
     getComponent(nextState, callback) {
         require.ensure([], (require) => {
-            callback(null, require('useModule/errer/errer').default)
-        }, 'use/errer')
+            callback(null, require('@uses/error/error').default)
+        }, 'uses/error')
     }
 }
 
-export default errer;
+export default error;

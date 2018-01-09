@@ -1,19 +1,27 @@
 
+@import '~@less/mixins.less';
 
+// [data-dpr="1"] body {
+//     font-size: 14px;
+//     width: 7.5rem;
+// }
 
-[data-dpr="1"] body {
-    font-size: 14px;
-    width: 7.5rem;
+// [data-dpr="2"] body{
+//     font-size: 28px;
+//     width: 7.5rem;
+// }
+
+// [data-dpr="3"] body{
+//     font-size: 42px;
+//     width: 7.5rem;
+// }
+
+.temporary-head{
+    .px2px(font-size,12px);
+    overflow-x: auto;
+    .temporary-head-box{
+        .repeatTag(@bottom:auto,@position:fixed);
+        z-index:99;
+        background: #fff;
+    }
 }
-
-[data-dpr="2"] body{
-    font-size: 28px;
-    width: 7.5rem;
-}
-
-[data-dpr="3"] body{
-    font-size: 42px;
-    width: 7.5rem;
-}
-
-

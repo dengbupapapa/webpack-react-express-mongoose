@@ -76,7 +76,7 @@ import {
     createSelector,
     createStructuredSelector
 } from 'reselect'
-import * as actiontor from '@Actions/login';
+import * as actiontor from '@actions/login';
 
 const loginState = (state) => state.login;
 

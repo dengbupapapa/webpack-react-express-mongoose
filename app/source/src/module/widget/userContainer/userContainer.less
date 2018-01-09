@@ -1,0 +1,39 @@
+@import '~@less/mixins.less';
+
+@sidebarWidth:50px;
+@titleHeight:50px;
+
+.project-user-container{
+    .px2px(font-size,14px);
+    .project-user-container-inner{
+        .repeatTag(@left:@sidebarWidth,@position:fixed);
+        .project-user-container-inner-title{
+            display: flex;
+            background: #2ebbfe;
+            .px2px(height,@titleHeight);
+            .project-user-container-inner-title-new,.project-user-container-inner-title-head{
+                .px2px(width,40px);
+                .px2px(height,40px);
+                .px2px(margin,5px 10px);
+                border-radius: 100%;
+                background: #eeeff3;
+            }
+            .project-user-container-inner-title-describe{
+                flex:1;
+                text-align: center;
+                color:#fff;
+                .px2px(line-height,50px);
+            }
+        }
+        .project-user-container-inner-content{
+            overflow: auto;
+            -webkit-overflow-scrolling: touch;
+            z-index:1;
+            .repeatTag(@top:@titleHeight);
+        }
+    }
+    .project-user-container-sidebar{
+        .px2px(width,@sidebarWidth);
+        .repeatTag(@right:auto,@position:fixed);
+    }
+}
