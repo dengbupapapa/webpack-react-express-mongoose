@@ -18,7 +18,7 @@ class HeadContent extends Component {
             <div className='temporary-head-box'>
                 <Link to='/sign/in' className='fn-clr-fff'>登录</Link>
                 {' | '}
-                <Link to='/sign/up' className='fn-clr-fff'>注册</Link>
+                <Link to='/sign/register' className='fn-clr-fff'>注册</Link>
                 {' | '}
                 <Link to='/user/creation/list' className='fn-clr-fff'>我的谱子</Link>
                 {' | '}

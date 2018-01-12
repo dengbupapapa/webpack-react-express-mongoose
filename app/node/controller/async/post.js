@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const mongoose = require('mongoose');
-const UserModel = mongoose.model('User');
+// const mongoose = require('mongoose');
+// const UserModel = mongoose.model('User');
 
 router.get('/', (req, res, next) => {
     res.json({

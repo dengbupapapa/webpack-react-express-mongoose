@@ -2,6 +2,18 @@ import {Component} from 'react';
 import './signIn.less';
 
 class SignIn extends Component{
+
+    signInHandle(){
+        fetch('/sign/in',{method:'POST'})
+        .then((response) => response.json())
+        .then((json) => {
+            console.log(json)
+        })
+        .catch((error)=>{
+            console.log(error)
+        })
+    }
+
     render(){
         return (
             <div className="project-sign-in">
@@ -12,7 +24,7 @@ class SignIn extends Component{
                     <input name="password" placeholder="请输入密码"/>
                 </div>
                 <div>
-                    <a>点击登录</a>
+                    <a onClick={this.signInHandle}>点击登录</a>
                 </div>
             </div>
         )

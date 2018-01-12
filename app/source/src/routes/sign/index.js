@@ -12,7 +12,7 @@ const sign = {
     // },
     childRoutes: [
         require('@routes/sign/signIn').default,
-        require('@routes/sign/signUp').default,
+        require('@routes/sign/register').default,
     ]
 }
 

@@ -171,13 +171,18 @@ const store = configureStore();
 // math.add(2, 4);
 
 fetch.default({
-    uriPrefix: notTemplateRequestUriPrefix
+    uriPrefix: notTemplateRequestUriPrefix,
+    method: 'POST',
+    headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+    }
 });
-fetch('/post', {
-        method: 'GET'
-    })
-    .then((response) => response.json())
-    .then((json) => console.log(json));
+// fetch('/post', {
+//         method: 'GET'
+//     })
+//     .then((response) => response.json())
+//     .then((json) => console.log(json));
 
 render(
     <Provider store={store}>

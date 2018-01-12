@@ -15,7 +15,7 @@ module.exports = {
             maxAge: 365 * 24 * 60 * 60 * 1000,
         }
     },
-    dbUri: 'mongodb://localhost:27017/refdemo',
+    dbUri: 'mongodb://localhost:27017/score',
     MongoStoreArg: {
         url: 'mongodb://localhost:27017/session'
     }

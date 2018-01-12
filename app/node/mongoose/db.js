@@ -6,8 +6,10 @@ const config = configLite(__dirname);
 
 var db = mongoose.connect(config.dbUri, {
     useMongoClient: true,
+    keepAlive: true
     /* other options */
 });
+
 mongoose.Promise = global.Promise;
 /* Use `db`, for instance `db.model()`*/
 
