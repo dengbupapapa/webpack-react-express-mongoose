@@ -7,7 +7,11 @@ class Register extends Component{
 
         fetch('/sign/register',{
                 body:JSON.stringify({
-                    phoneNo:1
+                    phoneNo:13532346982,
+                    email:'441056610121222ss1ss12311@qq.com',
+                    password:'rr5208fdadf81',
+                    confirmPassword:'rr5208fda1df81',
+                    a:1234
                 })
             })
             .then((response)=>response.json())

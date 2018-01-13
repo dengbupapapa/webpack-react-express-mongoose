@@ -44,7 +44,7 @@ router.post('/out', (req, res, next) => { //登出
 
 router.post('/register', async (req, res, next) => { //注册
 
-    debug(req.body);
+    // debug(req.body);
 
     let user = new UserModel(req.body);
 
@@ -60,7 +60,7 @@ router.post('/register', async (req, res, next) => { //注册
     } catch (e) {
 
         res.json({
-            sign: '注册',
+            sign: '注册e',
             messages: e
         });
         // next(e);
