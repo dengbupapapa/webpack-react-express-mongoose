@@ -1,22 +1,44 @@
-import {
-    Component
-} from 'react';
-
+import {Component} from 'react';
+import {Form,Input} from '@widgets/forms';
 import './creationDetail.less';
 
-import {
-    IndexLink,
-    Link
-} from 'react-router';
+import ContextDemo from './contextDemo.jsx'
 
 class CreationDetail extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {value: ''};
+    }
+
+
+    submithandle(event){
+        event.preventDefault();
+    }
+
+    handleChange(event) {
+        this.setState({value: event.target.value});
+    }
+
     render() {
         return (
             <div className='project-creation-detail-content'>
                 creation-detail
+                <ContextDemo className="formasd"/>
+                <Form onSubmit={this.submithandle.bind(this)} className="formasd">
+                    <Input className="formasd" defaultValue="12312312" placeholder="写点啥" rules={/^\d*$/}/>
+                    <Input/>
+                    <input type="submit" defaultValue="submit"/>
+                </Form>
+                <input type="text" value={this.state.value} onChange={this.handleChange.bind(this)} />
             </div>
         );
     }
+
+    static childContextTypes = {
+        datademo: PropTypes.string
+    }
+
 }
 
 

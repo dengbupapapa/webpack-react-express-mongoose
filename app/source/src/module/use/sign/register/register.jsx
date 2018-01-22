@@ -3,7 +3,20 @@ import './register.less';
 
 class Register extends Component{
 
-    registerHandle(){
+    constructor(props, context){
+        super(props);
+    }
+
+    componentWillMount(){
+        this.setState({ddd:1});
+    }
+
+    componentDidMount(){
+    }
+
+    registerHandle (event){
+
+        event.preventDefault();
 
         fetch('/sign/register',{
                 body:JSON.stringify({
@@ -25,22 +38,31 @@ class Register extends Component{
 
     render(){
         return (
-            <div className="project-sign-up">
+            <form onSubmit={this.registerHandle} className="project-sign-up">
                 <div className="project-sign-up-user-name">
-                    <input name="phoneNo" placeholder="请输入注册用户名"/>
+                    <input name="phoneNo" placeholder="请输入注册用户名" defaultValue={this.state.ddd}/>
                 </div>
                 <div className="project-sign-up-user-email">
-                    <input name="email" placeholder="请输入注册邮箱"/>
+                    <input name="email" placeholder="请输入注册邮箱" defaultValue={this.props.someProp}/>
                 </div>
                 <div className="project-sign-up-user-password">
-                    <input name="password" placeholder="请输入主持用户密码"/>
+                    <input name="password" placeholder="请输入主持用户密码" defaultValue={this.props.x}/>
                 </div>
                 <div>
-                    <a onClick={this.registerHandle}>点击注册</a>
+                    <input type="submit" value="点击注册"/>
                 </div>
-            </div>
+            </form>
         )
     }
+
+    static defaultProps={
+        x:1
+    }
+
+    static propTypes={
+        someProp:PropTypes.string
+    }
+
 }
 
 import * as actiontor from '@actions/login';

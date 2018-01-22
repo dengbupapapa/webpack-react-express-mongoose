@@ -42,6 +42,7 @@ javascriptFiles['vendors'] = [
     'immutable',
     'prop-types',
     'fetch-default',
+    'debug',
     './static/less/reset.less'
 ].concat(files);
 

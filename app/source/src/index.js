@@ -178,17 +178,20 @@ fetch.default({
         'Content-Type': 'application/json',
     }
 });
-// fetch('/post', {
-//         method: 'GET'
-//     })
-//     .then((response) => response.json())
-//     .then((json) => console.log(json));
+
+let {
+    NODE_ENV,
+    DEBUG,
+    TOOL
+} = process.env;
+
+if (NODE_ENV == 'development') Debug.enable(DEBUG ? DEBUG : '*');
 
 render(
     <Provider store={store}>
         <div>
             <Router history={browserHistory} routes={rootRouter}/>
-            {/*process.env.NODE_ENV=='development'?<DevTools/>:null*/}
+            {NODE_ENV=='development'&&TOOL?<DevTools/>:null}
         </div>
     </Provider>,
     document.getElementById('Root')

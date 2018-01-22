@@ -37,7 +37,9 @@ class UserContainer extends Component {
                         <div className='project-user-container-inner-title-new'></div>
                     </div>
                     <div className='project-user-container-inner-content'>
-                        {this.props.children}
+                        {this.props.children && React.cloneElement(this.props.children, {
+                          someProp: 'someValue'
+                        })}
                     </div>
                 </div>
             </div>

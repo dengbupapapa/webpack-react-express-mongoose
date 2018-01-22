@@ -5,6 +5,8 @@ webpack = require('webpack');
 configLite = require('config-lite');
 config = configLite(__dirname);
 
+let DEBUG = process.env.DEBUG
+
 module.exports = {
     cache: true,
     context: path.join(__dirname, '../source'),
@@ -66,15 +68,16 @@ module.exports = {
         new webpack.optimize.CommonsChunkPlugin('vendors', path.join('javascript/public/[name].js') + (!config.env ? '?[hash]' : '')),
         new webpack.DefinePlugin({
             'process.env': {
-                NODE_ENV: JSON.stringify(process.env.NODE_ENV)
+                NODE_ENV: JSON.stringify(process.env.NODE_ENV),
+                TOOL: JSON.stringify(Boolean(process.env.TOOL)),
+                DEBUG: JSON.stringify(process.env.DEBUG)
             },
             'notTemplateRequestUriPrefix': JSON.stringify(config.notTemplateRequestUriPrefix),
-            'needTool': process.env.npm_config_argv == '--tool'
         }),
         new webpack.ProvidePlugin({
             'React': 'react',
             'PropTypes': 'prop-types',
-            // 'fetch': 'fetch-default'
+            'Debug': 'debug'
         })
     ]
 };

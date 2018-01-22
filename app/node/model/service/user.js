@@ -62,13 +62,10 @@ userSchema
 userSchema.path('phoneNo').required(true, '手机号码不能为空！');
 userSchema.path('phoneNo').unique(true, '手机号码已存在！');
 userSchema.path('phoneNo').validate((value) => /^[1][358][0-9]{9}$/.test(value), '请输入正确的手机号码格式！');
-
-// debug('userSchema:', userSchema.virtuals.__proto__);
-// debug('phoneNo:', userSchema.phoneNo);
-// debug('password:', userSchema.virtuals.path);
-
+// console.log(userSchema.path('phoneNo').validate.toString());
 userSchema.path('hashed_password').validate(function(value) {
-    return assert.equal(this.password, this.confirmPassword);
+    assert.equal(this.password, this.confirmPassword);
+    return true;
 }, '两次密码不相同！');
 
 userSchema.path('hashed_password').required(true, '用户密码不能为空！');
