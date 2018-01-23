@@ -30,8 +30,8 @@ class CreationDetail extends Component {
                 creation-detail
                 <ContextDemo className="formasd"/>
                 <Form onSubmit={this.submithandle.bind(this)} className="formasd">
-                    <Input className="formasd" onChange={this.handleChange.bind(this)} onBlur={this.handleBlur.bind(this)} defaultValue="12312312" placeholder="写点啥" rules={/^\d*$/} errorMessage="请输入数字"/>
-                    <Input/>
+                    <Input className="formasd" onChange={this.handleChange.bind(this)} onBlur={this.handleBlur.bind(this)} defaultValue="12312312" placeholder="写点啥" rules={/^\d+$/} errorMessage="请输入数字"/>
+                    <Input rules={/^\d{3}$/} errorMessage="就是一直报错"/>
                     <input type="submit" defaultValue="submit"/>
                 </Form>
                 <input type="text" value={this.state.value} onChange={this.handleChange.bind(this)} />

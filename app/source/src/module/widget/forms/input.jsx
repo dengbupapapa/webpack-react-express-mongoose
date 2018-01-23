@@ -21,7 +21,6 @@ export default class Input extends Component {
 
     static defaultProps = {
         onChange: () => {},
-        onBlur: () => {},
         validCallback: () => {},
         errorMessage: 'Verification failed',
         containerClass: '',
@@ -31,7 +30,6 @@ export default class Input extends Component {
 
     static propTypes = {
         onChange: PropTypes.func,
-        onBlur: PropTypes.func,
         validCallback: PropTypes.func,
         errorMessage: PropTypes.string,
         containerClass: PropTypes.string,
@@ -64,7 +62,6 @@ export default class Input extends Component {
             valiPre,
             valiPost,
             onChange,
-            onBlur,
             defaultValue,
             className,
             errorMessage,
@@ -87,17 +84,15 @@ export default class Input extends Component {
         return (
             <div className={`react-validate-forms-input-container ${containerClass}`}>
                 <input
-                    className={`react-validate-forms-input ${className} ${result?'':'error'}`}
+                    className={`react-validate-forms-input ${className} ${!errorShow?'':'error'}`}
                     type="text"
                     value={this.state.value}
                     onChange={this.handleChange.bind(this)}
-                    onBlur={this.handleBlur.bind(this)}
-                    onFocus={this.handleFocus.bind(this)}
                     ref={input => {this.input = input}}
                     {...other}
                 />
                 {
-                    !result&&errorShow
+                    errorShow
                     ?<div
                         className={`react-validate-forms-error ${errorClass}`}
                         onClick={this.handleErrorClick.bind(this)}
@@ -170,7 +165,7 @@ export default class Input extends Component {
 
             return {
                 result,
-                errorShow: false
+                errorShow: !result
             }
 
         });
@@ -202,33 +197,9 @@ export default class Input extends Component {
 
     }
 
-    handleBlur(event) {
-
-        event.preventDefault();
-
-        let {
-            onBlur, //外部传入blur
-        } = this.props;
-
-        onBlur(event);
-        this.setState({
-            errorShow: this.state.result?false:true
-        });
-
-    }
-
-    handleFocus(event) {
-        event.preventDefault();
-        this.setState({
-            errorShow: false
-        });
-    }
 
     handleErrorClick(event) {
         event.preventDefault();
-        this.setState({
-            errorShow: false
-        });
         this.input.focus();
     }
 
