@@ -12,7 +12,6 @@
 3.固定值
 */
 
-
 import {
     Component
 } from 'react';
@@ -83,13 +82,12 @@ export default class Input extends Component {
         let {
             result,
             errorShow,
-            autoFocus
         } = this.state;
 
         return (
             <div className={`react-validate-forms-input-container ${containerClass}`}>
                 <input
-                    className={`react-validate-forms-input ${className}`}
+                    className={`react-validate-forms-input ${className} ${result?'':'error'}`}
                     type="text"
                     value={this.state.value}
                     onChange={this.handleChange.bind(this)}
@@ -172,7 +170,7 @@ export default class Input extends Component {
 
             return {
                 result,
-                errorShow: result ? false : true
+                errorShow: false
             }
 
         });
@@ -189,15 +187,18 @@ export default class Input extends Component {
         //受控
         let value = event.target.value;
 
-        this.setState({
+        this.setState(() => ({
             value
-        });
+        }));
 
         let {
             onChange, //外部传入change
         } = this.props;
 
         onChange(event);
+
+        //验证
+        this.verifier();
 
     }
 
@@ -206,13 +207,13 @@ export default class Input extends Component {
         event.preventDefault();
 
         let {
-            onBlur, //外部传入change
+            onBlur, //外部传入blur
         } = this.props;
 
         onBlur(event);
-
-        //验证
-        this.verifier();
+        this.setState({
+            errorShow: this.state.result?false:true
+        });
 
     }
 
@@ -232,4 +233,3 @@ export default class Input extends Component {
     }
 
 }
-
