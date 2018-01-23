@@ -17,6 +17,10 @@ class CreationDetail extends Component {
     }
 
     handleChange(event) {
+        // this.setState({value: event.target.value});
+    }
+
+    handleBlur(event) {
         this.setState({value: event.target.value});
     }
 
@@ -26,7 +30,7 @@ class CreationDetail extends Component {
                 creation-detail
                 <ContextDemo className="formasd"/>
                 <Form onSubmit={this.submithandle.bind(this)} className="formasd">
-                    <Input className="formasd" defaultValue="12312312" placeholder="写点啥" rules={/^\d*$/}/>
+                    <Input className="formasd" onChange={this.handleChange.bind(this)} onBlur={this.handleBlur.bind(this)} defaultValue="12312312" placeholder="写点啥" rules={/^\d*$/} errorMessage="请输入数字"/>
                     <Input/>
                     <input type="submit" defaultValue="submit"/>
                 </Form>

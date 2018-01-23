@@ -1,5 +1,5 @@
 import {Component} from 'react';
-let debug = Debug('formsWidget');
+let debug = Debug('formsWidget:form');
 
 export default class Form extends Component {
 

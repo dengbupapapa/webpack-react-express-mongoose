@@ -1,42 +1,45 @@
-import {Component} from 'react';
+import {
+    Component
+} from 'react';
 import './register.less';
 
-class Register extends Component{
+class Register extends Component {
 
-    constructor(props, context){
+    constructor(props, context) {
         super(props);
     }
 
-    componentWillMount(){
-        this.setState({ddd:1});
+    componentWillMount() {
+        this.setState({
+            ddd: 1
+        });
     }
 
-    componentDidMount(){
-    }
+    componentDidMount() {}
 
-    registerHandle (event){
+    registerHandle(event) {
 
         event.preventDefault();
 
-        fetch('/sign/register',{
-                body:JSON.stringify({
-                    phoneNo:13532346982,
-                    email:'441056610121222ss1ss12311@qq.com',
-                    password:'rr5208fdadf81',
-                    confirmPassword:'rr5208fda1df81',
-                    a:1234
+        fetch('/sign/register', {
+                body: JSON.stringify({
+                    phoneNo: 13532346982,
+                    email: '441056610121222ss1ss12311@qq.com',
+                    password: 'rr5208fdadf81',
+                    confirmPassword: 'rr5208fda1df81',
+                    a: 1234
                 })
             })
-            .then((response)=>response.json())
-            .then((result)=>{
+            .then((response) => response.json())
+            .then((result) => {
                 console.log(result);
             })
-            .catch((error)=>{
+            .catch((error) => {
                 console.log(error);
             })
     }
 
-    render(){
+    render() {
         return (
             <form onSubmit={this.registerHandle} className="project-sign-up">
                 <div className="project-sign-up-user-name">
@@ -55,12 +58,12 @@ class Register extends Component{
         )
     }
 
-    static defaultProps={
-        x:1
+    static defaultProps = {
+        x: 1
     }
 
-    static propTypes={
-        someProp:PropTypes.string
+    static propTypes = {
+        someProp: PropTypes.string
     }
 
 }
@@ -73,4 +76,4 @@ let stateOpts = {
     loginState: loginState
 }
 
-export default connectReduxToReact(Register,stateOpts,actiontor);
+export default connectReduxToReact(Register, stateOpts, actiontor);

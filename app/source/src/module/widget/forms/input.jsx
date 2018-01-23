@@ -1,42 +1,117 @@
-import {Component} from 'react';
+/*
+**
+作者:dengbupapapa
+功能有:
+1.验证
+2.报错
+3.change回调验证前后 onChange,validCallback
+
+验证方式有：
+1.new Reg
+2.fn
+3.固定值
+*/
+
+
+import {
+    Component
+} from 'react';
 let debug = Debug('formsWidget:input');
 
 export default class Input extends Component {
 
-    constructor(props){
-        super(props);
-        this.state={
-            value:this.props.value||this.props.defaultValue||'',
-            result:true,
-        }
-
+    static defaultProps = {
+        onChange: () => {},
+        onBlur: () => {},
+        validCallback: () => {},
+        errorMessage: 'Verification failed',
+        containerClass: '',
+        className: '',
+        errorClass: ''
     }
 
-    componentDidMount(){
+    static propTypes = {
+        onChange: PropTypes.func,
+        onBlur: PropTypes.func,
+        validCallback: PropTypes.func,
+        errorMessage: PropTypes.string,
+        containerClass: PropTypes.string,
+        className: PropTypes.string,
+        errorClass: PropTypes.string
+    }
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            value: this.props.value || this.props.defaultValue || '',
+            result: true,
+            errorShow: false
+        }
+    }
+
+    componentDidMount() {
         // debug(this.props);
         // console.log(this.setState)
     }
 
-    render(){
+    componentDidUpdate(prevProps, prevState) {
+        debug(prevState, this.state);
+    }
 
-        let{
+    render() {
+
+        let {
             rules,
             valiPre,
             valiPost,
             onChange,
+            onBlur,
             defaultValue,
+            className,
+            errorMessage,
+            errorClass,
+            validCallback,
+            containerClass,
             ...other
         } = this.props;
 
-        return(
-            <div className="react-validate-forms-input-container">
-                <input type="text" {...other} value={this.state.value} onChange={this.handleChange.bind(this)}/>
-                <div className="react-validate-forms-error">{this.state.result.toString()}</div>
+        /*
+        **
+        @errorShow Boolean, if true, show error
+        @result Boolean, if false, valid not pass
+        */
+        let {
+            result,
+            errorShow,
+            autoFocus
+        } = this.state;
+
+        return (
+            <div className={`react-validate-forms-input-container ${containerClass}`}>
+                <input
+                    className={`react-validate-forms-input ${className}`}
+                    type="text"
+                    value={this.state.value}
+                    onChange={this.handleChange.bind(this)}
+                    onBlur={this.handleBlur.bind(this)}
+                    onFocus={this.handleFocus.bind(this)}
+                    ref={input => {this.input = input}}
+                    {...other}
+                />
+                {
+                    !result&&errorShow
+                    ?<div
+                        className={`react-validate-forms-error ${errorClass}`}
+                        onClick={this.handleErrorClick.bind(this)}
+                    >
+                        {errorMessage}
+                    </div>
+                    :null
+                }
             </div>
         )
 
     }
-
 
     /*
     **
@@ -44,14 +119,16 @@ export default class Input extends Component {
     @return string
     */
 
-    rulesClassify(){
+    rulesClassify() {
 
-       let rules = this.props.rules;
+        let rules = this.props.rules;
 
-       if(typeof rules == 'function') return 'fn';
-       if(rules instanceof RegExp) return 'reg';
+        if (typeof rules == 'function') return 'fn';
+        if (rules instanceof RegExp) return 'reg';
+        if (typeof rules === 'undefined') return 'undefined';
+        if (rules === null) return 'null';
 
-       return 'fixed';
+        return 'fixed';
 
     }
 
@@ -60,65 +137,99 @@ export default class Input extends Component {
     @验证fun
     */
 
-    verifier(){
+    verifier() {
 
         let result;
-        let{rules} = this.props;
-        let{value} = this.state;
+        let {
+            rules,
+            validCallback
+        } = this.props;
 
-        switch (this.rulesClassify()){
-            case 'fn' :
-                result = rules();
-                break;
-            case 'reg' :
-                result = rules.test(value);
-                break;
-            default :
-                result = rules===value;
-        }
+        this.setState((state, props) => {
 
-        this.setState({
-            result
+            let {
+                value
+            } = state;
+
+            switch (this.rulesClassify()) {
+                case 'fn':
+                    result = Boolean(rules());
+                    break;
+                case 'reg':
+                    result = rules.test(value);
+                    break;
+                case 'undefined':
+                    result = true;
+                    break;
+                case 'null':
+                    result = value === '';
+                    break;
+                default:
+                    result = rules == value;
+            }
+
+            validCallback(result);
+
+            return {
+                result,
+                errorShow: result ? false : true
+            }
+
         });
 
     }
-
-
 
     /*
     **
     @每次变动callback
     */
-    async handleChange(event){
+    handleChange(event) {
 
+        event.preventDefault();
         //受控
-        let value=event.target.value;
+        let value = event.target.value;
 
-        console.log(await (function asd(a,fn){setTimeout(fn, 0)})(123,function(){console.log(12333);return Promise.resolve(123456)}));
-
-        await this.setState({
+        this.setState({
             value
         });
 
-        debug(this.state.result);
+        let {
+            onChange, //外部传入change
+        } = this.props;
+
+        onChange(event);
+
+    }
+
+    handleBlur(event) {
+
+        event.preventDefault();
+
+        let {
+            onBlur, //外部传入change
+        } = this.props;
+
+        onBlur(event);
+
         //验证
-        await this.verifier();
+        this.verifier();
 
-        debug(this.state.result);
+    }
 
+    handleFocus(event) {
+        event.preventDefault();
+        this.setState({
+            errorShow: false
+        });
+    }
+
+    handleErrorClick(event) {
+        event.preventDefault();
+        this.setState({
+            errorShow: false
+        });
+        this.input.focus();
     }
 
 }
 
-/*
-**
-功能有:
-1.验证
-2.报错
-3.change回调验证前后 valiPre,valiPost
-
-验证方式有：
-1.new Reg
-2.fn
-3.固定值
-*/
