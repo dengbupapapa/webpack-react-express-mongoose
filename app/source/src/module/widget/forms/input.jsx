@@ -12,6 +12,18 @@
 3.固定值
 */
 
+/*
+**
+*options
+*@parmas {all} [rules] 验证格式
+*@parmas {boolean} [onlyBlurThrow] 是否失去焦点时报错
+*@parmas {string} [className] input class
+*@parmas {func} [validCallback] expose parent valid
+*@parmas {string} [errorMessage] throw div content
+*@parmas {string} [errorClass]  throw div class
+*@parmas {string} [containerClass] container div class
+*/
+
 import {
     Component
 } from 'react';
@@ -21,6 +33,8 @@ export default class Input extends Component {
 
     static defaultProps = {
         onChange: () => {},
+        onBlur: () => {},
+        onFocus: () => {},
         validCallback: () => {},
         errorMessage: 'Verification failed',
         containerClass: '',
@@ -30,6 +44,8 @@ export default class Input extends Component {
 
     static propTypes = {
         onChange: PropTypes.func,
+        onBlur: PropTypes.func,
+        onFocus: PropTypes.func,
         validCallback: PropTypes.func,
         errorMessage: PropTypes.string,
         containerClass: PropTypes.string,
@@ -47,21 +63,23 @@ export default class Input extends Component {
     }
 
     componentDidMount() {
-        // debug(this.props);
+        debug(this.props);
         // console.log(this.setState)
     }
 
     componentDidUpdate(prevProps, prevState) {
-        debug(prevState, this.state);
+        debug('prevState:', prevState);
+        debug('this.state:', this.state);
     }
 
     render() {
 
         let {
             rules,
-            valiPre,
-            valiPost,
             onChange,
+            onBlur,
+            onFocus,
+            onlyBlurThrow,
             defaultValue,
             className,
             errorMessage,
@@ -88,6 +106,8 @@ export default class Input extends Component {
                     type="text"
                     value={this.state.value}
                     onChange={this.handleChange.bind(this)}
+                    onBlur={this.handleBlur.bind(this)}
+                    onFocus={this.handleFocus.bind(this)}
                     ref={input => {this.input = input}}
                     {...other}
                 />
@@ -188,15 +208,49 @@ export default class Input extends Component {
 
         let {
             onChange, //外部传入change
+            onlyBlurThrow,
         } = this.props;
 
         onChange(event);
 
         //验证
-        this.verifier();
+        if (!onlyBlurThrow) this.verifier();
 
     }
 
+    handleBlur(event) {
+
+        event.preventDefault();
+
+        let {
+            onBlur, //外部传入change
+            onlyBlurThrow
+        } = this.props;
+
+        onBlur(event);
+
+        //验证
+        if (onlyBlurThrow) this.verifier();
+
+    }
+
+    handleFocus(event) {
+
+        event.preventDefault();
+
+        let {
+            onFocus, //外部传入change
+            onlyBlurThrow
+        } = this.props;
+
+        onFocus(event);
+
+        if (onlyBlurThrow)
+            this.setState({
+                errorShow: false
+            })
+
+    }
 
     handleErrorClick(event) {
         event.preventDefault();
