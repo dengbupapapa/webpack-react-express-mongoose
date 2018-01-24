@@ -14,7 +14,8 @@ class CreationDetail extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            value: ''
+            value: '',
+            demo:true
         };
     }
 
@@ -36,6 +37,7 @@ class CreationDetail extends Component {
         event.preventDefault();
         console.log(Input.valid());
         console.log(Input.getValues());
+        // this.setState({demo:!this.state.demo})
     }
 
     render() {
@@ -63,18 +65,22 @@ class CreationDetail extends Component {
                     <input type="submit" defaultValue="submit"/>
                 </Form>
                 <input type="text" value={this.state.value} onChange={this.handleChange.bind(this)} />
-                <Input
-                    className="formasd"
-                    name="name3"
-                    onChange={this.handleChange.bind(this)}
-                    onBlur={this.handleBlur.bind(this)}
-                    value="12312312"
-                    placeholder="写点啥"
-                    rules={/^\d+$/}
-                    errorMessage="请输入数字"
-                    validCallback={function(result){}}
-                    onlyBlurThrow
-                />
+                {
+                    this.state.demo
+                    ?<Input
+                        className="formasd"
+                        name="name3"
+                        onChange={this.handleChange.bind(this)}
+                        onBlur={this.handleBlur.bind(this)}
+                        value="12312312"
+                        placeholder="写点啥"
+                        rules={/^\d+$/}
+                        errorMessage="请输入数字"
+                        validCallback={function(result){}}
+                        onlyBlurThrow
+                    />
+                    :null
+                }
             </div>
         );
     }

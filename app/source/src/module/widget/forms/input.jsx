@@ -75,6 +75,7 @@ export default class Input extends Component {
     }
 
     componentDidMount() {
+        this.initVerifier = false;
         Input.gatherRefsInputs.push(this);
     }
 
@@ -160,20 +161,23 @@ export default class Input extends Component {
      **
      *验证是否通过
      *@ return {Boolean} valid
+     *@ parmas {element} container default:all
      */
     static valid() {
 
-        let validResutl = true;
+        // let validResutl = true;
 
-        this.gatherRefsInputs.forEach((inputClass) => {
-            if(inputClass.initVerifier){
-                inputClass.verifier();
-                inputClass.initVerifier=false;
-            }
-            validResutl &= inputClass.state.result;
-        });
+        // this.gatherRefsInputs.forEach((inputClass) => {
+        //     inputClass.verifier();
+        //     validResutl &= inputClass.state.result;
+        // });
 
-        return Boolean(validResutl)
+        return Boolean(this.gatherRefsInputs.reduce((pre, inputClass) => (
+            inputClass.verifier(),
+            pre &= inputClass.state.result
+        ), true));
+
+        // Boolean(validResutl)
 
     }
 
@@ -181,6 +185,7 @@ export default class Input extends Component {
      **
      *获取input值
      *@ return {object} input values
+     *@ parmas {element} container default:all
      */
     static getValues() {
 
