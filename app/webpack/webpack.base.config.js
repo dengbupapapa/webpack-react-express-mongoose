@@ -33,7 +33,7 @@ module.exports = {
             '@uses': path.join(__dirname, '../source/src/module/use'),
             '@widgets': path.join(__dirname, '../source/src/module/widget'),
         },
-        extensions: ['', '.js', '.json', '.scss', '.css', '.less'],
+        extensions: ['', '.js', '.jsx', '.json', '.scss', '.css', '.less'],
     },
     module: {
         //noParse: [],
@@ -62,6 +62,9 @@ module.exports = {
         }, {
             test: /\.(eot|woff|ttf|svg)/,
             loader: 'file?name=elseFile/[hash]&prefix=font/'
+        }, {
+            test: /\.json$/,
+            loader: 'json'
         }]
     },
     plugins: [

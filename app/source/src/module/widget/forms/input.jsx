@@ -13,23 +13,30 @@
 */
 
 /*
-**
-*options
-*@parmas {all} [rules] 验证格式
-*@parmas {boolean} [onlyBlurThrow] 是否失去焦点时报错
-*@parmas {string} [className] input class
-*@parmas {func} [validCallback] expose parent valid
-*@parmas {string} [errorMessage] throw div content
-*@parmas {string} [errorClass]  throw div class
-*@parmas {string} [containerClass] container div class
-*/
+ **
+ *options
+ *@parmas {all} [rules] 验证格式
+ *@parmas {boolean} [onlyBlurThrow] 是否失去焦点时报错
+ *@parmas {string} [className] input class
+ *@parmas {func} [validCallback] expose parent valid
+ *@parmas {string} [errorMessage] throw div content
+ *@parmas {string} [errorClass]  throw div class
+ *@parmas {string} [containerClass] container div class
+ */
 
 import {
     Component
 } from 'react';
+
+import {
+    formsWidgetNamesArray
+} from './config';
+
 let debug = Debug('formsWidget:input');
 
 export default class Input extends Component {
+
+    static displayName = formsWidgetNamesArray[0]
 
     static defaultProps = {
         onChange: () => {},
@@ -50,7 +57,8 @@ export default class Input extends Component {
         errorMessage: PropTypes.string,
         containerClass: PropTypes.string,
         className: PropTypes.string,
-        errorClass: PropTypes.string
+        errorClass: PropTypes.string,
+        name: PropTypes.string.isRequired
     }
 
     constructor(props) {
@@ -62,15 +70,20 @@ export default class Input extends Component {
         }
     }
 
-    componentDidMount() {
-        debug(this.props);
-        // console.log(this.setState)
+    componentWillMount() {
+        this.verifier(); //加载立马验证，初始化各个state值
     }
 
-    componentDidUpdate(prevProps, prevState) {
-        debug('prevState:', prevState);
-        debug('this.state:', this.state);
+    componentDidMount() {
+        Input.gatherRefsInputs.push(this);
     }
+
+    componentWillUnmount() {
+        let index = Input.gatherRefsInputs.indexOf(this);
+        Input.gatherRefsInputs.splice(index, 1);
+    }
+
+    componentWillUpdate(prevProps, prevState) {}
 
     render() {
 
@@ -81,6 +94,7 @@ export default class Input extends Component {
             onFocus,
             onlyBlurThrow,
             defaultValue,
+            value: aliasValue,
             className,
             errorMessage,
             errorClass,
@@ -97,14 +111,17 @@ export default class Input extends Component {
         let {
             result,
             errorShow,
+            value
         } = this.state;
+
+        let initVerifier = this.initVerifier;
 
         return (
             <div className={`react-validate-forms-input-container ${containerClass}`}>
                 <input
-                    className={`react-validate-forms-input ${className} ${!errorShow?'':'error'}`}
+                    className={`react-validate-forms-input ${className} ${errorShow&&!initVerifier?'error':''}`}
                     type="text"
-                    value={this.state.value}
+                    value={value}
                     onChange={this.handleChange.bind(this)}
                     onBlur={this.handleBlur.bind(this)}
                     onFocus={this.handleFocus.bind(this)}
@@ -112,7 +129,7 @@ export default class Input extends Component {
                     {...other}
                 />
                 {
-                    errorShow
+                    errorShow&&!initVerifier
                     ?<div
                         className={`react-validate-forms-error ${errorClass}`}
                         onClick={this.handleErrorClick.bind(this)}
@@ -123,6 +140,53 @@ export default class Input extends Component {
                 }
             </div>
         )
+
+    }
+
+    /*
+     **
+     *是否是第一次验证
+     */
+
+    initVerifier = true
+
+    /*
+     **
+     *收集实例后的input
+     */
+    static gatherRefsInputs = []
+
+    /*
+     **
+     *验证是否通过
+     *@ return {Boolean} valid
+     */
+    static valid() {
+
+        let validResutl = true;
+
+        this.gatherRefsInputs.forEach((inputClass) => {
+            if(inputClass.initVerifier){
+                inputClass.verifier();
+                inputClass.initVerifier=false;
+            }
+            validResutl &= inputClass.state.result;
+        });
+
+        return Boolean(validResutl)
+
+    }
+
+    /*
+     **
+     *获取input值
+     *@ return {object} input values
+     */
+    static getValues() {
+
+        return this.gatherRefsInputs.reduce((pre, inputClass) => (
+            pre[inputClass.input.name] = inputClass.input.value, pre
+        ), {});
 
     }
 
@@ -230,7 +294,7 @@ export default class Input extends Component {
         onBlur(event);
 
         //验证
-        if (onlyBlurThrow) this.verifier();
+        this.verifier();
 
     }
 

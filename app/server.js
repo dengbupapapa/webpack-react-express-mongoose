@@ -2,6 +2,9 @@ const app = require('./node/app');
 const configLite = require('config-lite');
 const config = configLite(__dirname);
 const openDB = require('./node/mongoose/db.js');
+const debug = require('debug')('server.js');
+
+debug('config:', config);
 
 app.set('port', config.port + 1);
 
