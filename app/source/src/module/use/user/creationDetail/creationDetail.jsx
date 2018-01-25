@@ -3,7 +3,9 @@ import {
 } from 'react';
 import {
     Form,
-    Input
+    Input,
+    Select,
+    method
 } from '@widgets/forms';
 import './creationDetail.less';
 
@@ -25,7 +27,11 @@ class CreationDetail extends Component {
         super(props);
         this.state = {
             value: '',
-            demo:true
+            demo:true,
+            radio1:true,
+            radio2:false,
+            checkbox1:false,
+            checkbox2:false,
         };
     }
 
@@ -35,10 +41,12 @@ class CreationDetail extends Component {
     }
 
     handleChange(event) {
+        console.log('handleChange');
         // this.setState({value: event.target.value});
     }
 
     handleBlur(event) {
+        console.log('handleBlur');
         // this.setState({
         //     value: event.target.value
         // });
@@ -46,18 +54,41 @@ class CreationDetail extends Component {
 
     handleClick(event){
         event.preventDefault();
-        console.log(Input.valid('team3'));
-        console.log(Input.getValues('team3'));
+        console.log(method.valid('team2'));
+        console.log(method.getValues('team2'));
         // this.setState({demo:!this.state.demo})
     }
 
+    selectonchange(event){
+        console.log(event);
+        // this.control.focus()
+    }
+
+    handleradio(e){
+        console.log(e.target.checked)
+        this.setState({
+            [e.target.name]:e.target.checked
+        });
+    }
+    handleradio1(e){
+        console.log(e.target.checked);
+        this.setState({
+            radio1:e.target.checked
+        });
+    }
+    handleradio2(e){
+        console.log(e.target.checked);
+        this.setState({
+            radio2:e.target.checked
+        });
+    }
     render() {
 
         return (
             <div className='project-creation-detail-content'>
                 creation-detail
-                <ContextDemo className="formasd"/>
                 <Form onSubmit={this.submithandle.bind(this)} className="formasd">
+                    <ContextDemo className="formasd"/>
                     <Input
                         className="formasd"
                         name="name1"
@@ -72,7 +103,7 @@ class CreationDetail extends Component {
                         team='team2'
                     />
                     <Input
-                        name="name2"
+                        name="name1"
                         className="formasd"
                         defaultValue="12312312s"
                         rules={/^\d{3}$/}
@@ -87,8 +118,8 @@ class CreationDetail extends Component {
                 {
                     this.state.demo
                     ?<Input
-                        className="formasd"
-                        name="name3"
+                        className="formasd123213"
+                        name="name1"
                         onChange={this.handleChange.bind(this)}
                         onBlur={this.handleBlur.bind(this)}
                         value="12312312ss"
@@ -97,11 +128,66 @@ class CreationDetail extends Component {
                         errorMessage="请输入数字"
                         validCallback={function(result){}}
                         onlyBlurThrow
-                        team='team1'
                     />
                     :null
                 }
                 <InputDemo/>
+                <select onBlur={this.selectonchange.bind(this)} ref={control => {this.control = control}} defaultValue="1">
+                    <option value="1">11</option>
+                    <option value="2">22</option>
+                    <option value="3">33</option>
+                </select>
+                <Select
+                    name="hahahah"
+                    rules={/^\d+$/}
+                    errorMessage="来自select的错误"
+                    className="formasd"
+                    onChange={this.handleChange.bind(this)}
+                    onBlur={this.handleBlur.bind(this)}
+                    team='team2'
+                >
+                    <option value="1">111</option>
+                    <option value="2s">222s</option>
+                    <option value="3">333</option>
+                </Select>
+                <Select
+                    name="hahahah"
+                    rules={/^\d+$/}
+                    errorMessage="来自select的错误"
+                    className="formasd"
+                    onChange={this.handleChange.bind(this)}
+                    onBlur={this.handleBlur.bind(this)}
+                    // value={['1','2s']}
+                    team='team1'
+                    // multiple
+                >
+                    <option value="1">111</option>
+                    <option value="2s">222s</option>
+                    <option value="3">333</option>
+                </Select>
+                <Select defaultValue="3"
+                    name="hahasshah"
+                    rules={/^\d+$/}
+                    errorMessage="来自select的错误"
+                    className="formasd"
+                    onChange={this.handleChange.bind(this)}
+                    onBlur={this.handleBlur.bind(this)}
+                    team='team2'
+                >
+                    <option value="1">111</option>
+                </Select>
+                <select
+                    onChange={this.selectonchange.bind(this)}
+                >
+                    <option value="1">111</option>
+                    <option value="2">111</option>
+                    <option value="3">111</option>
+                </select>
+                <input type="checkbox" id="checkbox123"/><label htmlFor="checkbox123">12321321312</label>
+                <input type="checkbox" name="checkbox1" checked={this.state.checkbox1} value="yes" onChange={this.handleradio.bind(this)}/>
+                <input type="checkbox" name="checkbox1" checked={this.state.checkbox2} value="no" onChange={this.handleradio.bind(this)}/>
+                <input type="radio" name="radio1" checked={this.state.radio1} value="yes" onChange={this.handleradio1.bind(this)}/>
+                <input type="radio" name="radio1" checked={this.state.radio2} value="no" onChange={this.handleradio2.bind(this)}/>
             </div>
         );
     }

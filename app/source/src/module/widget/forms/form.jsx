@@ -16,7 +16,10 @@
 import {
     Component
 } from 'react';
-import Input from './input';
+import {
+    valid,
+    getValues
+} from './method';
 import {
     formsWidgetNamesArray
 } from './config';
@@ -25,9 +28,19 @@ let debug = Debug('formsWidget:form');
 
 export default class Form extends Component {
 
+    static childContextTypes = {
+        reactFormsTeam: PropTypes.string
+    }
+
+    getChildContext() {
+        return {
+            reactFormsTeam: this.props.team
+        }
+    }
+
     static defaultProps = {
         onSubmit: () => {},
-        team:Math.floor(new Date().getTime()*Math.random()).toString()
+        team: Math.floor(new Date().getTime() * Math.random()).toString()
     }
 
     static propTypes = {
@@ -38,12 +51,11 @@ export default class Form extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            validArray:[]
+            validArray: []
         }
     }
 
-    componentWillMount() {
-    }
+    componentWillMount() {}
 
     // componentDidMount() {
     // }
@@ -62,7 +74,9 @@ export default class Form extends Component {
         } = this.props;
 
         //验证通过才执行自定义
-        if(Input.valid(team))onSubmit(event,{values:Input.getValues(team)});
+        if (valid(team)) onSubmit(event, {
+            values: getValues(team)
+        });
 
     }
 
@@ -74,32 +88,32 @@ export default class Form extends Component {
             ...other
         } = this.props;
 
-        let children = React.Children.map(this.props.children, (item, index) => {
+        // let children = React.Children.map(this.props.children, (item, index) => {
 
-            if (React.isValidElement(item)) {
+        //     if (React.isValidElement(item)) {
 
-                let {
-                    type: {
-                        displayName
-                    }
-                } = item;
-                if (~formsWidgetNamesArray.indexOf(displayName)) {
+        //         let {
+        //             type: {
+        //                 displayName
+        //             }
+        //         } = item;
+        //         if (~formsWidgetNamesArray.indexOf(displayName)) {
 
-                    return React.cloneElement(item, {
-                        team
-                    })
+        //             return React.cloneElement(item, {
+        //                 team
+        //             })
 
-                }
+        //         }
 
-            }
+        //     }
 
-            return item;
+        //     return item;
 
-        })
+        // })
 
         return (
             <form onSubmit={this.handleSubmit.bind(this)} {...other}>
-                {children}
+                {this.props.children}
             </form>
         )
     }
