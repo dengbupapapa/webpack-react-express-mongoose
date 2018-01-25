@@ -58,7 +58,8 @@ export default class Input extends Component {
         containerClass: PropTypes.string,
         className: PropTypes.string,
         errorClass: PropTypes.string,
-        name: PropTypes.string.isRequired
+        name: PropTypes.string.isRequired,
+        team: PropTypes.string
     }
 
     constructor(props) {
@@ -101,6 +102,7 @@ export default class Input extends Component {
             errorClass,
             validCallback,
             containerClass,
+            team,
             ...other
         } = this.props;
 
@@ -160,38 +162,35 @@ export default class Input extends Component {
     /*
      **
      *验证是否通过
-     *@ return {Boolean} valid
-     *@ parmas {element} container default:all
+     *@ return [pre] {Boolean} valid
+     *@ parmas [team] {string} gather default:all
      */
-    static valid() {
+    static valid(team) {
 
-        // let validResutl = true;
-
-        // this.gatherRefsInputs.forEach((inputClass) => {
-        //     inputClass.verifier();
-        //     validResutl &= inputClass.state.result;
-        // });
-
-        return Boolean(this.gatherRefsInputs.reduce((pre, inputClass) => (
-            inputClass.verifier(),
-            pre &= inputClass.state.result
-        ), true));
-
-        // Boolean(validResutl)
+        return Boolean(this.gatherRefsInputs.reduce((pre, inputClass) => {
+            if (!team || team === inputClass.props.team) {
+                inputClass.verifier();
+                pre &= inputClass.state.result
+            }
+            return pre;
+        }, true));
 
     }
 
     /*
      **
      *获取input值
-     *@ return {object} input values
-     *@ parmas {element} container default:all
+     *@ return [pre] {object} input values
+     *@ parmas [team] {string} gather default:all
      */
-    static getValues() {
+    static getValues(team) {
 
-        return this.gatherRefsInputs.reduce((pre, inputClass) => (
-            pre[inputClass.input.name] = inputClass.input.value, pre
-        ), {});
+        return this.gatherRefsInputs.reduce((pre, inputClass) => {
+            if (!team || team === inputClass.props.team) {
+                pre[inputClass.input.name] = inputClass.input.value;
+            }
+            return pre;
+        }, {});
 
     }
 

@@ -1,4 +1,8 @@
 import {Component} from 'react';
+import {
+    Form,
+    Input
+} from '@widgets/forms';
 // import ReactDOM from 'react-dom';
 // class XSearch extends HTMLElement {
 //   connectedCallback() {
@@ -13,13 +17,19 @@ import {Component} from 'react';
 // customElements.define('x-search', XSearch);
 
 class ContextLayer1 extends Component {
-
+    constructor(props) {
+        super(props);
+        this.state = {
+          hah:true
+        };
+    }
     render(){
         return(
-            <div>
+            <div onClick={()=>{this.setState({hah:!this.state.hah})}}>
                 <ContextLayer2/>
                 123456
                 <MouseTracker/>
+                {this.state.hah?<Input team="team3" name="name5" className="formasd" defaultValue="12312312s" rules={/^\d{3}$/} errorMessage="就是一直报错"/>:null}
             </div>
         )
     }

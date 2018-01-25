@@ -1,3 +1,18 @@
+/*
+**
+作者:dengbupapapa
+功能有:
+1.验证
+2.分组 team
+*/
+
+/*
+ **
+ *options
+ *@parmas {string} [team] 分组
+ *@parmas {func} [onSubmit] 提交回调
+ */
+
 import {
     Component
 } from 'react';
@@ -10,12 +25,24 @@ let debug = Debug('formsWidget:form');
 
 export default class Form extends Component {
 
+    static defaultProps = {
+        onSubmit: () => {},
+        team:Math.floor(new Date().getTime()*Math.random()).toString()
+    }
+
+    static propTypes = {
+        onSubmit: PropTypes.func,
+        team: PropTypes.string
+    }
 
     constructor(props) {
         super(props);
         this.state = {
             validArray:[]
         }
+    }
+
+    componentWillMount() {
     }
 
     // componentDidMount() {
@@ -26,15 +53,24 @@ export default class Form extends Component {
     // }
 
     handleSubmit(event) {
+
         event.preventDefault();
-        if(this.state.validArray.includes(false))return//如果有验证不通过的
-        onSubmit(event);
+
+        let {
+            onSubmit,
+            team
+        } = this.props;
+
+        //验证通过才执行自定义
+        if(Input.valid(team))onSubmit(event,{values:Input.getValues(team)});
+
     }
 
     render() {
 
         let {
             onSubmit,
+            team,
             ...other
         } = this.props;
 
@@ -50,19 +86,16 @@ export default class Form extends Component {
                 if (~formsWidgetNamesArray.indexOf(displayName)) {
 
                     return React.cloneElement(item, {
-                        validCallback: (result)=>{
-                            // console.log(result);
-                        }
+                        team
                     })
 
                 }
 
             }
 
-            return item
+            return item;
 
         })
-        // debug(this.props.children);
 
         return (
             <form onSubmit={this.handleSubmit.bind(this)} {...other}>

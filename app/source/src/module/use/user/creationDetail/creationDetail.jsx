@@ -7,7 +7,17 @@ import {
 } from '@widgets/forms';
 import './creationDetail.less';
 
-import ContextDemo from './contextDemo.jsx'
+import ContextDemo from './contextDemo.jsx';
+
+class InputDemo extends Component{
+    render(){
+        return (
+            <div>
+                <Input team="team2" name="name4" className="formasd" defaultValue="12312312s" rules={/^\d{3}$/} errorMessage="就是一直报错"/>
+            </div>
+        )
+    }
+}
 
 class CreationDetail extends Component {
 
@@ -19,8 +29,9 @@ class CreationDetail extends Component {
         };
     }
 
-    submithandle(event) {
+    submithandle(event,{values}) {
         event.preventDefault();
+        console.log(values);
     }
 
     handleChange(event) {
@@ -35,8 +46,8 @@ class CreationDetail extends Component {
 
     handleClick(event){
         event.preventDefault();
-        console.log(Input.valid());
-        console.log(Input.getValues());
+        console.log(Input.valid('team3'));
+        console.log(Input.getValues('team3'));
         // this.setState({demo:!this.state.demo})
     }
 
@@ -58,8 +69,16 @@ class CreationDetail extends Component {
                         errorMessage="请输入数字"
                         validCallback={function(result){}}
                         onlyBlurThrow
+                        team='team2'
                     />
-                    <Input name="name2" className="formasd" defaultValue="12312312s" rules={/^\d{3}$/} errorMessage="就是一直报错"/>
+                    <Input
+                        name="name2"
+                        className="formasd"
+                        defaultValue="12312312s"
+                        rules={/^\d{3}$/}
+                        errorMessage="就是一直报错"
+                        team='team1'
+                    />
                     asd
                     <div onClick={this.handleClick.bind(this)}>123</div>
                     <input type="submit" defaultValue="submit"/>
@@ -72,15 +91,17 @@ class CreationDetail extends Component {
                         name="name3"
                         onChange={this.handleChange.bind(this)}
                         onBlur={this.handleBlur.bind(this)}
-                        value="12312312"
+                        value="12312312ss"
                         placeholder="写点啥"
                         rules={/^\d+$/}
                         errorMessage="请输入数字"
                         validCallback={function(result){}}
                         onlyBlurThrow
+                        team='team1'
                     />
                     :null
                 }
+                <InputDemo/>
             </div>
         );
     }
