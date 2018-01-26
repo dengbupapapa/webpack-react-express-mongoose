@@ -33,7 +33,7 @@ export default class Select extends Component {
         } = this.props;
 
         return (
-            <Base {...other} controlType="select">
+            <Base {...other} isSelect>
                 <select>
                     {children}
                 </select>

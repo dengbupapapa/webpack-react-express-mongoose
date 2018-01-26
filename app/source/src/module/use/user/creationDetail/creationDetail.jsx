@@ -5,6 +5,7 @@ import {
     Form,
     Input,
     Select,
+    Textarea,
     method
 } from '@widgets/forms';
 import './creationDetail.less';
@@ -132,6 +133,36 @@ class CreationDetail extends Component {
                     :null
                 }
                 <InputDemo/>
+                <Textarea
+                    className="formasd123213"
+                    name="name1"
+                    onChange={this.handleChange.bind(this)}
+                    onBlur={this.handleBlur.bind(this)}
+                    value="12312312ss"
+                    placeholder="写点啥"
+                    rules={/^\d+$/}
+                    errorMessage="请输入数字"
+                    validCallback={function(result){}}
+                    onlyBlurThrow
+                    team="team2"
+                />
+                <Textarea
+                    className="formasd123213"
+                    name="name2"
+                    onChange={this.handleChange.bind(this)}
+                    onBlur={this.handleBlur.bind(this)}
+                    value="12312312ss"
+                    placeholder="写点啥"
+                    rules={/^\d+$/}
+                    errorMessage="请输入数字"
+                    validCallback={function(result){}}
+                    onlyBlurThrow
+                    team="team1"
+                />
+                <textarea
+                    onBlur={function(){console.log('onBlurtextarea');}}
+                    onChange={function(){console.log('onChangetextarea');}}
+                />
                 <select onBlur={this.selectonchange.bind(this)} ref={control => {this.control = control}} defaultValue="1">
                     <option value="1">11</option>
                     <option value="2">22</option>
@@ -185,7 +216,7 @@ class CreationDetail extends Component {
                 </select>
                 <input type="checkbox" id="checkbox123"/><label htmlFor="checkbox123">12321321312</label>
                 <input type="checkbox" name="checkbox1" checked={this.state.checkbox1} value="yes" onChange={this.handleradio.bind(this)}/>
-                <input type="checkbox" name="checkbox1" checked={this.state.checkbox2} value="no" onChange={this.handleradio.bind(this)}/>
+                <input type="checkbox" name="checkbox1" checked={!this.state.checkbox1} value="no" onChange={this.handleradio.bind(this)}/>
                 <input type="radio" name="radio1" checked={this.state.radio1} value="yes" onChange={this.handleradio1.bind(this)}/>
                 <input type="radio" name="radio1" checked={this.state.radio2} value="no" onChange={this.handleradio2.bind(this)}/>
             </div>

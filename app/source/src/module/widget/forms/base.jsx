@@ -82,12 +82,14 @@ export default class Base extends Component {
     componentWillMount() {
 
         let {
-            controlType
+            isInput,
+            isSelect,
+            isTextarea,
         } = this.props;
         //当select chekcbox radiu没有默认值的时候我们要给一个应该的值值赋给state value
         if (this.state.value === '') {
 
-            if (controlType == 'select') { //当select没有默认值的时候我们要找到第一个option的值赋给state value
+            if (isSelect) { //当select没有默认值的时候我们要找到第一个option的值赋给state value
                 let {
                     children: {
                         props: {
@@ -148,7 +150,9 @@ export default class Base extends Component {
             containerClass,
             team,
             children,
-            controlType,
+            isInput,
+            isSelect,
+            isTextarea,
             ...other
         } = this.props;
 
@@ -163,9 +167,6 @@ export default class Base extends Component {
             value
         } = this.state;
 
-        // let initVerifier = this.initVerifier;
-
-        let isInput = controlType == 'input'; //是否是input控件
 
         return (
             <div className={`react-validate-forms-container ${containerClass}`}>
@@ -173,8 +174,8 @@ export default class Base extends Component {
                     className: `react-validate-forms-input ${className} ${errorShow?'error':''}`,
                     value,
                     onChange:this.handleChange.bind(this),
-                    onBlur:isInput?this.handleBlur.bind(this):onBlur,
-                    onFocus:isInput?this.handleFocus.bind(this):onFocus,
+                    onBlur:isInput||isTextarea?this.handleBlur.bind(this):onBlur,
+                    onFocus:isInput||isTextarea?this.handleFocus.bind(this):onFocus,
                     ref:control => {this.control = control},
                     ...other
                 })}
@@ -379,12 +380,14 @@ export default class Base extends Component {
         event.preventDefault();
 
         let {
-            controlType
+            isInput,
+            isSelect,
+            isTextarea,
         } = this.props;
 
-        if (controlType == 'input') {
+        if (isInput||isTextarea) {
             this.control.focus();
-        } else if (controlType == 'select') {
+        } else if (isSelect) {
             this.control.click();//没触发
         }
     }

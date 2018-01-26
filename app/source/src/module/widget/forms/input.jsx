@@ -364,7 +364,7 @@ export default class Input extends Component {
 
     render() {
         return (
-            <Base {...this.props} controlType="input">
+            <Base {...this.props} isInput>
                 <input/>
             </Base>
         )
