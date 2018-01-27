@@ -32,6 +32,7 @@ export default class Select extends Component {
             ...other
         } = this.props;
 
+
         return (
             <Base {...other} isSelect>
                 <select>

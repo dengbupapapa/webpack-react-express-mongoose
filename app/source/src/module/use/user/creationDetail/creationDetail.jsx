@@ -33,7 +33,17 @@ class CreationDetail extends Component {
             radio2:false,
             checkbox1:false,
             checkbox2:false,
+            className:'asdasdsa21312'
         };
+    }
+
+    componentDidMount() {
+
+        // setTimeout(()=>{
+        //     this.setState({
+        //         className:'456yhjk'
+        //     })
+        // },1000)
     }
 
     submithandle(event,{values}) {
@@ -57,6 +67,7 @@ class CreationDetail extends Component {
         event.preventDefault();
         console.log(method.valid('team2'));
         console.log(method.getValues('team2'));
+        // console.log(method.getControls()[0].verifier.toString());
         // this.setState({demo:!this.state.demo})
     }
 
@@ -66,22 +77,22 @@ class CreationDetail extends Component {
     }
 
     handleradio(e){
-        console.log(e.target.checked)
-        this.setState({
-            [e.target.name]:e.target.checked
-        });
+        // console.log(e.target.checked)
+        // this.setState({
+        //     [e.target.name]:e.target.checked
+        // });
     }
     handleradio1(e){
-        console.log(e.target.checked);
-        this.setState({
-            radio1:e.target.checked
-        });
+        // console.log(e.target.checked);
+        // this.setState({
+        //     radio1:e.target.checked
+        // });
     }
     handleradio2(e){
-        console.log(e.target.checked);
-        this.setState({
-            radio2:e.target.checked
-        });
+        // console.log(e.target.checked);
+        // this.setState({
+        //     radio2:e.target.checked
+        // });
     }
     render() {
 
@@ -99,7 +110,6 @@ class CreationDetail extends Component {
                         placeholder="写点啥"
                         rules={/^\d+$/}
                         errorMessage="请输入数字"
-                        validCallback={function(result){}}
                         onlyBlurThrow
                         team='team2'
                     />
@@ -115,19 +125,20 @@ class CreationDetail extends Component {
                     <div onClick={this.handleClick.bind(this)}>123</div>
                     <input type="submit" defaultValue="submit"/>
                 </Form>
+                <Form onSubmit={this.submithandle.bind(this)} className="formasd">
+                </Form>
                 <input type="text" value={this.state.value} onChange={this.handleChange.bind(this)} />
                 {
                     this.state.demo
                     ?<Input
-                        className="formasd123213"
-                        name="name1"
+                        className={this.state.className}
+                        name="name1123"
                         onChange={this.handleChange.bind(this)}
                         onBlur={this.handleBlur.bind(this)}
                         value="12312312ss"
                         placeholder="写点啥"
                         rules={/^\d+$/}
                         errorMessage="请输入数字"
-                        validCallback={function(result){}}
                         onlyBlurThrow
                     />
                     :null
@@ -142,7 +153,6 @@ class CreationDetail extends Component {
                     placeholder="写点啥"
                     rules={/^\d+$/}
                     errorMessage="请输入数字"
-                    validCallback={function(result){}}
                     onlyBlurThrow
                     team="team2"
                 />
@@ -155,7 +165,6 @@ class CreationDetail extends Component {
                     placeholder="写点啥"
                     rules={/^\d+$/}
                     errorMessage="请输入数字"
-                    validCallback={function(result){}}
                     onlyBlurThrow
                     team="team1"
                 />
@@ -176,6 +185,7 @@ class CreationDetail extends Component {
                     onChange={this.handleChange.bind(this)}
                     onBlur={this.handleBlur.bind(this)}
                     team='team2'
+                    // multiple
                 >
                     <option value="1">111</option>
                     <option value="2s">222s</option>
@@ -208,15 +218,14 @@ class CreationDetail extends Component {
                     <option value="1">111</option>
                 </Select>
                 <select
-                    onChange={this.selectonchange.bind(this)}
+                    onBlur={this.selectonchange.bind(this)}
                 >
-                    <option value="1">111</option>
+                    <option value="1">1112</option>
                     <option value="2">111</option>
                     <option value="3">111</option>
                 </select>
                 <input type="checkbox" id="checkbox123"/><label htmlFor="checkbox123">12321321312</label>
                 <input type="checkbox" name="checkbox1" checked={this.state.checkbox1} value="yes" onChange={this.handleradio.bind(this)}/>
-                <input type="checkbox" name="checkbox1" checked={!this.state.checkbox1} value="no" onChange={this.handleradio.bind(this)}/>
                 <input type="radio" name="radio1" checked={this.state.radio1} value="yes" onChange={this.handleradio1.bind(this)}/>
                 <input type="radio" name="radio1" checked={this.state.radio2} value="no" onChange={this.handleradio2.bind(this)}/>
             </div>

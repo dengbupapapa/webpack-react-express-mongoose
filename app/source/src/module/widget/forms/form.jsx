@@ -29,7 +29,10 @@ let debug = Debug('formsWidget:form');
 export default class Form extends Component {
 
     static childContextTypes = {
-        reactFormsTeam: PropTypes.string
+        reactFormsTeam: PropTypes.oneOfType([
+            PropTypes.symbol,
+            PropTypes.string
+        ])
     }
 
     getChildContext() {
@@ -40,15 +43,18 @@ export default class Form extends Component {
 
     static defaultProps = {
         onSubmit: () => {},
-        team: Math.floor(new Date().getTime() * Math.random()).toString()
+        team: Math.floor(new Date().getTime() * Math.random()).toString()//Symbol('FORM_DEFAULT_TEAM')
     }
 
     static propTypes = {
         onSubmit: PropTypes.func,
-        team: PropTypes.string
+        team: PropTypes.oneOfType([
+            PropTypes.symbol,
+            PropTypes.string
+        ])
     }
 
-    constructor(props) {
+    constructor(props, a) {
         super(props);
         this.state = {
             validArray: []

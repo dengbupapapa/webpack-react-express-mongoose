@@ -1,7 +1,10 @@
-import {Component} from 'react';
+import {
+    Component
+} from 'react';
 import {
     Form,
-    Input
+    Input,
+    Checkbox
 } from '@widgets/forms';
 // import ReactDOM from 'react-dom';
 // class XSearch extends HTMLElement {
@@ -16,19 +19,20 @@ import {
 // }
 // customElements.define('x-search', XSearch);
 
+
 class ContextLayer1 extends Component {
     constructor(props) {
         super(props);
         this.state = {
-          hah:true
+            hah: true
         };
     }
-    render(){
-        return(
-            <div onClick={()=>{this.setState({hah:!this.state.hah})}}>
-                <ContextLayer2/>
-                123456
-                <MouseTracker/>
+    render() {
+        return (
+            <div>
+                <div onClick={()=>{this.setState({hah:!this.state.hah})}}>123</div>
+                <Checkbox name="checkbox1" value="yes" checked={true} required/>
+                <Checkbox name="checkbox1" value="no"/>
                 {this.state.hah?<Input team="team3" name="name5" className="formasd" defaultValue="12312312s" rules={/^\d{3}$/} errorMessage="就是一直报错"/>:null}
             </div>
         )
@@ -36,12 +40,10 @@ class ContextLayer1 extends Component {
 
 }
 
-
-
 class ContextLayer2 extends Component {
 
-    render(){
-        return(
+    render() {
+        return (
             <div>
                 <ContextLayer3/>
                 <x-search name="demo">123</x-search>
@@ -53,45 +55,47 @@ class ContextLayer2 extends Component {
 
 class ContextLayer3 extends Component {
 
-    render(){
+    render() {
         // console.log(this.context);
         // throw new Error(12321312312);
-        return(
+        return (
             <div>{this.context.datademo}</div>
         )
     }
-    static contextTypes={
-        datademo:PropTypes.string
+    static contextTypes = {
+        datademo: PropTypes.string
     }
 }
 
-
 class Cat extends Component {
-  render() {
-    const mouse = this.props.mouse;
-    return (
-      <img src="/cat.jpg" style={{ position: 'absolute', left: mouse.x, top: mouse.y }} />
-    );
-  }
+    render() {
+        const mouse = this.props.mouse;
+        return (
+            <img src="/cat.jpg" style={{ position: 'absolute', left: mouse.x, top: mouse.y }} />
+        );
+    }
 }
 
 class Mouse extends Component {
-  constructor(props) {
-    super(props);
-    this.handleMouseMove = this.handleMouseMove.bind(this);
-    this.state = { x: 0, y: 0 };
-  }
+    constructor(props) {
+        super(props);
+        this.handleMouseMove = this.handleMouseMove.bind(this);
+        this.state = {
+            x: 0,
+            y: 0
+        };
+    }
 
-  handleMouseMove(event) {
-    this.setState({
-      x: event.clientX,
-      y: event.clientY
-    });
-  }
+    handleMouseMove(event) {
+        this.setState({
+            x: event.clientX,
+            y: event.clientY
+        });
+    }
 
-  render() {
-    return (
-      <div style={{ height: '100%' }} onMouseMove={this.handleMouseMove}>
+    render() {
+        return (
+            <div style={{ height: '100%' }} onMouseMove={this.handleMouseMove}>
 
         {/*
           Instead of providing a static representation of what <Mouse> renders,
@@ -99,22 +103,21 @@ class Mouse extends Component {
         */}
         {this.props.render(this.state)}
       </div>
-    );
-  }
+        );
+    }
 }
 
 class MouseTracker extends Component {
-  render() {
-    return (
-      <div>
+    render() {
+        return (
+            <div>
         <h1>Move the mouse around!</h1>
         <Mouse render={mouse => (
           <Cat mouse={mouse} />
         )}/>
       </div>
-    );
-  }
+        );
+    }
 }
-
 
 export default ContextLayer1

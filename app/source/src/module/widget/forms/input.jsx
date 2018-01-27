@@ -365,7 +365,7 @@ export default class Input extends Component {
     render() {
         return (
             <Base {...this.props} isInput>
-                <input/>
+                <input type="text"/>
             </Base>
         )
 

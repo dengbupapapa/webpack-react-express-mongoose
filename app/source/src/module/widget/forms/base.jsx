@@ -4,7 +4,6 @@
 功能有:
 1.验证
 2.报错
-3.change回调验证前后 onChange,validCallback
 
 验证方式有：
 1.new Reg
@@ -18,7 +17,6 @@
  *@parmas {all} [rules] 验证格式
  *@parmas {boolean} [onlyBlurThrow] 是否失去焦点时报错
  *@parmas {string} [className] input class
- *@parmas {func} [validCallback] expose parent valid
  *@parmas {string} [errorMessage] throw div content
  *@parmas {string} [errorClass]  throw div class
  *@parmas {string} [containerClass] container div class
@@ -42,14 +40,16 @@ let debug = Debug('formsWidget:input');
 export default class Base extends Component {
 
     static contextTypes = {
-      reactFormsTeam: PropTypes.string
+        reactFormsTeam: PropTypes.oneOfType([
+            PropTypes.symbol,
+            PropTypes.string
+        ])
     }
 
     static defaultProps = {
         onChange: () => {},
         onBlur: () => {},
         onFocus: () => {},
-        validCallback: () => {},
         errorMessage: 'Verification failed',
         containerClass: '',
         className: '',
@@ -60,7 +60,6 @@ export default class Base extends Component {
         onChange: PropTypes.func,
         onBlur: PropTypes.func,
         onFocus: PropTypes.func,
-        validCallback: PropTypes.func,
         errorMessage: PropTypes.string,
         containerClass: PropTypes.string,
         className: PropTypes.string,
@@ -70,8 +69,13 @@ export default class Base extends Component {
         children: PropTypes.element.isRequired
     }
 
-    constructor(props) {
-        super(props);
+    constructor(props, context) {
+        super(props, context);
+        /*
+        **
+        @errorShow Boolean, if true, show error
+        @result Boolean, if false, valid not pass
+        */
         this.state = {
             value: this.props.value || this.props.defaultValue || '',
             result: true,
@@ -112,16 +116,11 @@ export default class Base extends Component {
 
         }
 
-        // this.verifier(); //加载立马验证，初始化各个state值
     }
 
     componentDidMount() {
-        // console.log(this.control)
-        // this.setState({
-        //     value:this.control.value
-        // });
-        // this.verifier(); //加载立马验证，初始化各个state值
-        // this.initVerifier = false;
+        // console.log(this.props.name,'mount');
+
         gatherControl(this); //模块创建之后把该模块添加到集合中
     }
 
@@ -130,55 +129,27 @@ export default class Base extends Component {
     }
 
     componentWillUpdate(prevProps, prevState) {
-        // console.log('update');
+        // console.log(this.props.name,'update');
     }
 
     render() {
 
         let {
-            rules,
-            onChange,
-            onBlur,
-            onFocus,
-            onlyBlurThrow,
-            defaultValue,
-            value: aliasValue,
             className,
             errorMessage,
             errorClass,
-            validCallback,
             containerClass,
-            team,
             children,
-            isInput,
-            isSelect,
-            isTextarea,
-            ...other
         } = this.props;
 
-        /*
-        **
-        @errorShow Boolean, if true, show error
-        @result Boolean, if false, valid not pass
-        */
-        let {
-            result,
-            errorShow,
-            value
-        } = this.state;
 
+        let {
+            errorShow,
+        } = this.state;
 
         return (
             <div className={`react-validate-forms-container ${containerClass}`}>
-                {children && React.cloneElement(children, {
-                    className: `react-validate-forms-input ${className} ${errorShow?'error':''}`,
-                    value,
-                    onChange:this.handleChange.bind(this),
-                    onBlur:isInput||isTextarea?this.handleBlur.bind(this):onBlur,
-                    onFocus:isInput||isTextarea?this.handleFocus.bind(this):onFocus,
-                    ref:control => {this.control = control},
-                    ...other
-                })}
+                {children && React.cloneElement(children,this.controlOptions(this.props,this.state))}
                 {
                     errorShow
                     ?<div
@@ -195,60 +166,53 @@ export default class Base extends Component {
     }
 
     /*
-     **
-     *是否是第一次验证
-     */
+    **control参数设置
+    *@ parmas {object} [props]
+    *@ parmas {object} [state]
+    *@ return {object} [control options]
+    */
+    controlOptions(props, state) {
 
-    // initVerifier = true
+        let {
+            rules,
+            onChange,
+            onBlur,
+            onFocus,
+            onlyBlurThrow,
+            defaultValue,
+            value: aliasValue,
+            className,
+            errorMessage,
+            errorClass,
+            containerClass,
+            team,
+            children,
+            isInput,
+            isSelect,
+            isTextarea,
+            isCheckbox,
+            type,
+            ...other
+        } = props;
 
-    /*
-     **
-     *收集实例后的input
-     */
-    // static gatherRefsInputs = []
+        let {
+            errorShow,
+            value
+        } = state;
 
-    /*
-     **
-     *验证是否通过
-     *@ return [pre] {Boolean} valid
-     *@ parmas [team] {string} gather default:all
-     */
-    // static valid(team) {
+        return {
+            className: `react-validate-forms-input ${className} ${errorShow?'error':''}`,
+            value,
+            onChange: this.handleChange.bind(this),
+            onBlur: this.handleBlur.bind(this),
+            onFocus: this.handleFocus.bind(this),
+            ref: control => {
+                this.control = control
+            },
+            ...other
+        }
 
-    //     return Boolean(this.gatherRefsInputs.reduce((pre, inputClass) => {
-    //         if (!team || team === inputClass.props.team) {
-    //             inputClass.verifier();
-    //             pre &= inputClass.state.result
-    //         }
-    //         return pre;
-    //     }, true));
-
-    // }
-
-    /*
-     **
-     *获取input值
-     *@ return [pre] {object} input values
-     *@ parmas [team] {string} gather default:all
-     */
-    // static getValues(team) {
-
-    //     return this.gatherRefsInputs.reduce((pre, inputClass) => {
-    //         if (!team || team === inputClass.props.team) {
-    //             let name = inputClass.input.name;
-    //             let value = inputClass.input.value;
-    //             if(Object.prototype.toString.call(pre[name])=='[object Array]'){
-    //                 pre[name].push(value);
-    //             }else if(pre.hasOwnProperty(name)){
-    //                 pre[name] = [pre[name],value];
-    //             }else{
-    //                 pre[name] = value;
-    //             }
-    //         }
-    //         return pre;
-    //     }, {});
-
-    // }
+    }
 
     /*
     **
@@ -278,8 +242,7 @@ export default class Base extends Component {
 
         let result;
         let {
-            rules,
-            validCallback
+            rules
         } = this.props;
 
         this.setState((state, props) => {
@@ -305,7 +268,6 @@ export default class Base extends Component {
                     result = rules == value;
             }
 
-            validCallback(result);
             return {
                 result,
                 errorShow: !result
@@ -321,7 +283,7 @@ export default class Base extends Component {
     */
     handleChange(event) {
 
-        event.preventDefault();
+        // event.preventDefault();
         //受控
         let value = event.target.value;
 
@@ -343,7 +305,7 @@ export default class Base extends Component {
 
     handleBlur(event) {
 
-        event.preventDefault();
+        // event.preventDefault();
 
         let {
             onBlur, //外部传入change
@@ -359,16 +321,20 @@ export default class Base extends Component {
 
     handleFocus(event) {
 
-        event.preventDefault();
+        // event.preventDefault();
 
         let {
             onFocus, //外部传入change
-            onlyBlurThrow
+            onlyBlurThrow,
+            isInput,
+            isSelect,
+            isTextarea,
+            isCheckbox
         } = this.props;
 
         onFocus(event);
 
-        if (onlyBlurThrow)
+        if (onlyBlurThrow || isSelect||isCheckbox||isRadio)
             this.setState({
                 errorShow: false
             });
@@ -377,7 +343,7 @@ export default class Base extends Component {
 
     handleErrorClick(event) {
 
-        event.preventDefault();
+        // event.preventDefault();
 
         let {
             isInput,
@@ -385,11 +351,8 @@ export default class Base extends Component {
             isTextarea,
         } = this.props;
 
-        if (isInput||isTextarea) {
-            this.control.focus();
-        } else if (isSelect) {
-            this.control.click();//没触发
-        }
+        this.control.focus();
+
     }
 
 }

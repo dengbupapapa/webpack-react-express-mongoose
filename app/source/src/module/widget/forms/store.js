@@ -13,6 +13,6 @@ export function undockControl(control) {
     controlArray.splice(index, 1);
 }
 
-export default function getControl(control) {
+export default function getControls() {
     return controlArray;
 }

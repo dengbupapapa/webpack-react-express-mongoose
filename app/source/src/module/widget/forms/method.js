@@ -11,7 +11,7 @@ export function valid(team) {
     return Boolean(controlStore().reduce((pre, controlElement) => {
         if (!team || team === controlElement.props.team || team === controlElement.context.reactFormsTeam) {
             controlElement.verifier();
-            pre &= controlElement.state.result
+            pre &= controlElement.state.result;
         }
         return pre;
     }, true));
@@ -42,3 +42,10 @@ export function getValues(team) {
     }, {});
 
 }
+
+/*
+ **
+ *获取controls
+ *@ return {array} controls
+ */
+export const getControls = controlStore;
