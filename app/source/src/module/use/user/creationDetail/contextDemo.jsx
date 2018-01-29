@@ -45,10 +45,10 @@ class ContextLayer1 extends Component {
                     errorMessage="反正就是选错了"
                 />
                 <Radio name="radio1" value="1" required/>
-                <Radio name="radio1" rules={function(){
-                    console.log('radio func');
+                <Radio name="radio1" rules={function(value){
+                    console.log(value);
                     return false;
-                }} errorMessage="来自radio的错误"/>
+                }} onChange={function(){console.log('onChange')}} errorMessage="来自radio的错误"/>
                 <Radio name="radio1"checked value="3"/>
                 {this.state.hah?<Input team="team3" name="name5" className="formasd" defaultValue="12312312s" rules={/^\d{3}$/} errorMessage="就是一直报错"/>:null}
             </div>

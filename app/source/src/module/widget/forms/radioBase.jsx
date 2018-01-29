@@ -102,11 +102,11 @@ export default class ComplexBase extends Base {
     @验证fun
     */
 
-    verifier(manualCheck, hasValidControls) {
+    verifier(manualCheck, manualValue, hasValidControls) {
 
         if (manualCheck) { //如果有传入选中值
 
-            inspect(this.props, manualCheck, hasValidControls);
+            inspect(this.props, manualCheck, manualValue, hasValidControls);
 
         } else {
 
@@ -121,11 +121,18 @@ export default class ComplexBase extends Base {
 
             let {
                 controlsSetStatePromiseArray,
-                hasValidControls
+                hasValidControls,
+                belongToControlsArray
             } = reduceControl(this.props);
 
             Promise.all(controlsSetStatePromiseArray).then((checkedArray) => {
-                inspect(this.props, checkedArray.includes(true), hasValidControls);
+                let checked = checkedArray.includes(true);
+                let value = undefined;
+                if (checked) {
+                    let index = checkedArray.indexOf(true);
+                    value = belongToControlsArray[index].state.value;
+                }
+                inspect(this.props, checked, value, hasValidControls);
             });
 
         }
@@ -150,7 +157,11 @@ export default class ComplexBase extends Base {
 
         Promise.all(controlsSetStatePromiseArray)
             .then((checkedArray) => {
-                this.verifier(referChecked, hasValidControls);
+                let {
+                    onChange, //外部传入change
+                } = this.props;
+                onChange(event);
+                this.verifier(referChecked, referValue, hasValidControls);
             });
 
         // 验证
@@ -166,6 +177,7 @@ export default class ComplexBase extends Base {
  *@pramas [props]
  *@pramas [isControlled] {bool}
  *@pramas [referValue] {string}
+ *@return [belongToControlsArray] {array} belong to controls
  *@return [controlsSetStatePromiseArray] {array} controls setState promise
  *@return [hasValidControls] {array} controls
  */
@@ -200,7 +212,8 @@ function reduceControl(props, isControlled, referValue) {
                 control.setState((state, props) => {
                     resolve(state.checked);
                 });
-            }));
+            })); //收集属于同一个复用组件的成promise
+            pre.belongToControlsArray.push(control); //收集属于同一个复用组件的
             if (isControlled) //如果是有受控项
                 control.setState(({
                     value
@@ -213,6 +226,7 @@ function reduceControl(props, isControlled, referValue) {
         return pre;
 
     }, {
+        belongToControlsArray: [],
         controlsSetStatePromiseArray: [],
         hasValidControls: []
     });
@@ -222,10 +236,12 @@ function reduceControl(props, isControlled, referValue) {
 /*
  **
  *检测复用组件checkbox 各个组件结合value是否通过验证
- *@parmas [value] {string}
+ *@parmas [props] {object} react props
+ *@parmas [hasChecked] {bool} 是否有选中
+ *@parmas [chekValue] {string} 选中值
  *@parmas [controls] {reactElement}
  */
-function inspect(props, hasChecked = false, controls) {
+function inspect(props, hasChecked = false, chekValue=undefined, controls) {
 
     let {
         name: referName,
@@ -252,7 +268,7 @@ function inspect(props, hasChecked = false, controls) {
         } = control;
 
         let requiredPass = required ? hasChecked : true;
-        let rulesPass = rules.RULES_FUNC === RULES_FUNC ? true : rules() === true;
+        let rulesPass = rules.RULES_FUNC === RULES_FUNC ? true : rules(chekValue) === true;
 
         if (requiredPass && rulesPass) { //验证通过
             control.setState(() => ({
