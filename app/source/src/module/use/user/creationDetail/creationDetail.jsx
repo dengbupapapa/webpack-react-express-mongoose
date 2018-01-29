@@ -77,8 +77,8 @@ class CreationDetail extends Component {
 
     handleClick(event){
         event.preventDefault();
-        console.log(method.valid('team2'));
-        console.log(method.getValues('team2'));
+        console.log(method.valid());
+        console.log(method.getValues());
         // console.log(method.getControls()[0].verifier.toString());
         // this.setState({demo:!this.state.demo})
     }

@@ -27,7 +27,8 @@ import {
 } from 'react';
 
 import {
-    formsWidgetNamesArray
+    formsWidgetNamesArray,
+    controlStorePosition
 } from './config';
 
 import {
@@ -35,7 +36,7 @@ import {
     undockControl
 } from './store';
 
-let debug = Debug('formsWidget:input');
+// let debug = Debug('formsWidget:input');
 
 export default class Base extends Component {
 
@@ -119,13 +120,15 @@ export default class Base extends Component {
     }
 
     componentDidMount() {
-        // console.log(this.props.name,'mount');
 
-        gatherControl(this); //模块创建之后把该模块添加到集合中
+        gatherControl(this, controlStorePositionFn(this.props)); //模块创建之后把该模块添加到集合中
+
     }
 
     componentWillUnmount() {
-        undockControl(this); //模块移除前把该模块从集合中移除
+
+        undockControl(this, controlStorePositionFn(this.props)); //模块移除前把该模块从集合中移除
+
     }
 
     componentWillUpdate(prevProps, prevState) {
@@ -358,5 +361,35 @@ export default class Base extends Component {
         this.control.focus();
 
     }
+
+}
+
+/*
+ **
+ *@props {object}
+ *@return position {string} control belong to store position
+ */
+function controlStorePositionFn(props) {
+
+    let {
+        ALONES,
+        CHECKBOXS,
+        RADIOS
+    } = controlStorePosition;
+
+    let position = ALONES;
+    let {
+        isCheckbox,
+        isRadio
+    } = props;
+
+
+    if (isCheckbox) {
+        position = CHECKBOXS;
+    } else if (isRadio) {
+        position = RADIOS;
+    }
+
+    return position;
 
 }

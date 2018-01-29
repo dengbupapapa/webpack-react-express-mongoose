@@ -36,7 +36,7 @@ class ContextLayer1 extends Component {
                 <Checkbox name="checkbox1" value="no" errorMessage="至少选两个"/>
                 <Checkbox name="checkbox1" value="no" errorMessage="最多选三个"/>
                 <Checkbox
-                    name="checkbox1"
+                    name="name5"
                     rules={function(values){
                         console.log(values)
                         return true
@@ -44,10 +44,10 @@ class ContextLayer1 extends Component {
                     checked
                     errorMessage="反正就是选错了"
                 />
-                <Radio name="radio1" value="1" required/>
+                <Radio name="name5" value="1" required/>
                 <Radio name="radio1" rules={function(value){
                     console.log(value);
-                    return false;
+                    return value=='1';
                 }} onChange={function(){console.log('onChange')}} errorMessage="来自radio的错误"/>
                 <Radio name="radio1"checked value="3"/>
                 {this.state.hah?<Input team="team3" name="name5" className="formasd" defaultValue="12312312s" rules={/^\d{3}$/} errorMessage="就是一直报错"/>:null}

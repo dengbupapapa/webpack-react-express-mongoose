@@ -341,7 +341,8 @@ import {
 import Base from './base';
 
 import {
-    formsWidgetNamesArray
+    formsWidgetNamesArray,
+    rulesDefaultProps
 } from './config';
 
 export default class Input extends Component {

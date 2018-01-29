@@ -4,18 +4,15 @@ import {
 import Base from './base';
 import controlStore from './store';
 
-const RULES_FUNC = Symbol('RULES_FUNC');
-
-function rulesDefaultProps() {}
-
-rulesDefaultProps.RULES_FUNC = RULES_FUNC;
+import {
+    controlStorePosition,
+    rulesDefaultProps
+} from './config';
 
 export default class ComplexBase extends Base {
 
     static defaultProps = Object.assign({}, Base.defaultProps, {
         required: false,
-        minNum: 0,
-        maxNum: Infinity,
         rules: rulesDefaultProps,
         checked: false,
         value: 'on',
@@ -24,8 +21,6 @@ export default class ComplexBase extends Base {
 
     static propTypes = Object.assign({}, Base.propTypes, {
         required: PropTypes.bool,
-        minNum: PropTypes.number,
-        maxNum: PropTypes.number,
         rules: PropTypes.func,
         checked: PropTypes.bool
     })
@@ -192,7 +187,16 @@ function reduceControl(props, isControlled, referValue) {
         }
     } = props;
 
-    return controlStore().reduce((pre, control) => {
+    let {
+        ALONES,
+        CHECKBOXS,
+        RADIOS
+    } = controlStorePosition;
+    let {
+        [ALONES]: alonesControl, [CHECKBOXS]: checkboxsControl, [RADIOS]: radioControl,
+    } = controlStore();
+
+    return radioControl.reduce((pre, control) => {
 
         let {
             props: {
@@ -220,7 +224,7 @@ function reduceControl(props, isControlled, referValue) {
                 }) => ({
                     checked: value === referValue
                 }));
-            if (required || rules.RULES_FUNC !== RULES_FUNC) //有验证才会聚合
+            if (required || rules.RULES_FUNC !== rulesDefaultProps.RULES_FUNC) //有验证才会聚合
                 pre.hasValidControls.push(control);
         }
         return pre;
@@ -268,7 +272,7 @@ function inspect(props, hasChecked = false, chekValue=undefined, controls) {
         } = control;
 
         let requiredPass = required ? hasChecked : true;
-        let rulesPass = rules.RULES_FUNC === RULES_FUNC ? true : rules(chekValue) === true;
+        let rulesPass = rules.RULES_FUNC === rulesDefaultProps.RULES_FUNC ? true : rules(chekValue) === true;
 
         if (requiredPass && rulesPass) { //验证通过
             control.setState(() => ({

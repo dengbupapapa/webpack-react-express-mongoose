@@ -1,9 +1,0 @@
-{
-    "formsWidgetNamesArray": [
-        "react-validate-forms-input",
-        "react-validate-forms-select",
-        "react-validate-forms-textarea",
-        "react-validate-forms-checkbox",
-        "react-validate-forms-radio"
-    ]
-}

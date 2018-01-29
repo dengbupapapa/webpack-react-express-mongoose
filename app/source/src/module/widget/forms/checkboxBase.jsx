@@ -4,11 +4,10 @@ import {
 import Base from './base';
 import controlStore from './store';
 
-const RULES_FUNC = Symbol('RULES_FUNC');
-
-function rulesDefaultProps() {}
-
-rulesDefaultProps.RULES_FUNC = RULES_FUNC;
+import {
+    controlStorePosition,
+    rulesDefaultProps
+} from './config';
 
 export default class ComplexBase extends Base {
 
@@ -161,7 +160,16 @@ function reduceControl(props) {
         }
     } = props;
 
-    return controlStore().reduce((pre, control) => {
+    let {
+        ALONES,
+        CHECKBOXS,
+        RADIOS
+    } = controlStorePosition;
+    let {
+        [ALONES]: alonesControl, [CHECKBOXS]: checkboxsControl, [RADIOS]: radioControl,
+    } = controlStore();
+
+    return checkboxsControl.reduce((pre, control) => {
 
         let {
             props: {
@@ -183,7 +191,7 @@ function reduceControl(props) {
         } = control;
 
         if (referName === name && referType === type) {
-            if (required || minNum > 0 || maxNum < Infinity || rules.RULES_FUNC !== RULES_FUNC) //有验证才会聚合
+            if (required || minNum > 0 || maxNum < Infinity || rules.RULES_FUNC !== rulesDefaultProps.RULES_FUNC) //有验证才会聚合
                 pre.hasValidControls.push(control);
             if (checked) //选中才会添加到values
                 pre.values.push(value);
@@ -227,7 +235,7 @@ function inspect(values, controls) {
         let requiredPass = required ? Boolean(num) : true;
         let maxNumPass = maxNum >= num;
         let minNumPass = num >= minNum;
-        let rulesPass = rules.RULES_FUNC === RULES_FUNC ? true : rules(values) === true;
+        let rulesPass = rules.RULES_FUNC === rulesDefaultProps.RULES_FUNC ? true : rules(values) === true;
 
         if (requiredPass && maxNumPass && minNumPass && rulesPass) { //验证通过
             control.setState(() => ({
