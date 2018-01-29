@@ -142,7 +142,6 @@ export default class Base extends Component {
             children,
         } = this.props;
 
-
         let {
             errorShow,
         } = this.state;
@@ -166,11 +165,11 @@ export default class Base extends Component {
     }
 
     /*
-    **control参数设置
-    *@ parmas {object} [props]
-    *@ parmas {object} [state]
-    *@ return {object} [control options]
-    */
+     **control参数设置
+     *@ parmas {object} [props]
+     *@ parmas {object} [state]
+     *@ return {object} [control options]
+     */
     controlOptions(props, state) {
 
         let {
@@ -191,6 +190,7 @@ export default class Base extends Component {
             isSelect,
             isTextarea,
             isCheckbox,
+            isRadio,
             type,
             ...other
         } = props;
@@ -299,7 +299,8 @@ export default class Base extends Component {
         onChange(event);
 
         //验证
-        if (!onlyBlurThrow) this.verifier();
+        if (!onlyBlurThrow)
+            this.verifier();
 
     }
 
@@ -309,13 +310,15 @@ export default class Base extends Component {
 
         let {
             onBlur, //外部传入change
-            onlyBlurThrow
+            onlyBlurThrow,
+            isInput
         } = this.props;
 
         onBlur(event);
 
         //验证
-        this.verifier();
+        if (onlyBlurThrow)
+            this.verifier();
 
     }
 
@@ -329,12 +332,13 @@ export default class Base extends Component {
             isInput,
             isSelect,
             isTextarea,
-            isCheckbox
+            isCheckbox,
+            isRadio
         } = this.props;
 
         onFocus(event);
 
-        if (onlyBlurThrow || isSelect||isCheckbox||isRadio)
+        if (onlyBlurThrow || isSelect || isCheckbox || isRadio)
             this.setState({
                 errorShow: false
             });

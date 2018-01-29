@@ -39,11 +39,23 @@ class CreationDetail extends Component {
 
     componentDidMount() {
 
-        // setTimeout(()=>{
-        //     this.setState({
-        //         className:'456yhjk'
-        //     })
-        // },1000)
+            // this.setState({
+            //     className:'456yhjk'
+            // });
+            // console.log(this.state.className);
+            // this.setState({},(...a)=>{
+            //     console.log(a);
+            // })
+            //         function setStateAsync(state) {
+            //             return new Promise((resolve) => {
+            //                 this.setState(resolve);
+            //             });
+            //         }
+
+            //         setStateAsync.call(this).then(function(...a){
+            //             console.log(a);
+            //         })
+
     }
 
     submithandle(event,{values}) {
@@ -202,8 +214,8 @@ class CreationDetail extends Component {
                     team='team1'
                     // multiple
                 >
-                    <option value="1">111</option>
-                    <option value="2s">222s</option>
+                    <option>111</option>
+                    <option value="">222s</option>
                     <option value="3">333</option>
                 </Select>
                 <Select defaultValue="3"
@@ -220,9 +232,9 @@ class CreationDetail extends Component {
                 <select
                     onBlur={this.selectonchange.bind(this)}
                 >
-                    <option value="1">1112</option>
-                    <option value="2">111</option>
-                    <option value="3">111</option>
+                    <option>1112</option>
+                    <option value="">111</option>
+                    <option value="3">1sssss11</option>
                 </select>
                 <input type="checkbox" id="checkbox123"/><label htmlFor="checkbox123">12321321312</label>
                 <input type="checkbox" name="checkbox1" checked={this.state.checkbox1} value="yes" onChange={this.handleradio.bind(this)}/>

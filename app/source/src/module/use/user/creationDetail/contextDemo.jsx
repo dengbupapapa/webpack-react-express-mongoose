@@ -4,7 +4,8 @@ import {
 import {
     Form,
     Input,
-    Checkbox
+    Checkbox,
+    Radio
 } from '@widgets/forms';
 // import ReactDOM from 'react-dom';
 // class XSearch extends HTMLElement {
@@ -31,14 +32,31 @@ class ContextLayer1 extends Component {
         return (
             <div>
                 <div onClick={()=>{this.setState({hah:!this.state.hah})}}>123</div>
-                <Checkbox name="checkbox1" value="yes" checked={true} required/>
-                <Checkbox name="checkbox1" value="no"/>
+                <Checkbox name="checkbox1" value="yes" checked required errorMessage="必选一个" minNum={2} maxNum={3}/>
+                <Checkbox name="checkbox1" value="no" errorMessage="至少选两个"/>
+                <Checkbox name="checkbox1" value="no" errorMessage="最多选三个"/>
+                <Checkbox
+                    name="checkbox1"
+                    rules={function(values){
+                        console.log(values)
+                        return true
+                    }}
+                    checked
+                    errorMessage="反正就是选错了"
+                />
+                <Radio name="radio1" value="1" required/>
+                <Radio name="radio1" rules={function(){
+                    console.log('radio func');
+                    return false;
+                }} errorMessage="来自radio的错误"/>
+                <Radio name="radio1"checked value="3"/>
                 {this.state.hah?<Input team="team3" name="name5" className="formasd" defaultValue="12312312s" rules={/^\d{3}$/} errorMessage="就是一直报错"/>:null}
             </div>
         )
     }
 
 }
+
 
 class ContextLayer2 extends Component {
 

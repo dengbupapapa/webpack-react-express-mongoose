@@ -6,28 +6,42 @@ import controlStore from './store';
 
 const RULES_FUNC = Symbol('RULES_FUNC');
 
+function rulesDefaultProps() {}
+
+rulesDefaultProps.RULES_FUNC = RULES_FUNC;
+
 export default class ComplexBase extends Base {
 
     static defaultProps = Object.assign({}, Base.defaultProps, {
         required: false,
         minNum: 0,
         maxNum: Infinity,
-        rules: () => {
-            return RULES_FUNC
-        }
+        rules: rulesDefaultProps,
+        checked: false,
+        value: 'on',
+        defaultValue: 'on'
     })
 
     static propTypes = Object.assign({}, Base.propTypes, {
         required: PropTypes.bool,
         minNum: PropTypes.number,
         maxNum: PropTypes.number,
-        rules: PropTypes.func
+        rules: PropTypes.func,
+        checked: PropTypes.bool
     })
 
     constructor(props, context) {
         super(props, context);
+        let {
+            value,
+            defaultValue
+        } = this.props;
         this.state = Object.assign({}, this.state, {
-            checked: this.props.checked || false
+            checked: this.props.checked,
+            value: value == 'on' ?
+                defaultValue == 'on' ?
+                'on' : defaultValue :
+                value
         })
     }
 
@@ -90,80 +104,12 @@ export default class ComplexBase extends Base {
 
     verifier() {
 
-        // let result;
-        // let {
-        //     rules,
-        //     name: referName,
-        //     children: {
-        //         props: {
-        //             type: referType
-        //         }
-        //     }
-        // } = this.props;
-
-        // let values = controlStore().reduce((pre, control) => {
-
-        //     let {
-        //         props: {
-        //             name,
-        //             children: {
-        //                 props: {
-        //                     type
-        //                 }
-        //             }
-        //         },
-        //         state: {
-        //             value,
-        //             checked
-        //         }
-        //     } = control;
-        //     // console.log(control)
-        //     if (referName === name && referType === type && checked) {
-        //         // console.log(control)
-
-        //         pre.push(value);
-        //     }
-        //     return pre;
-
-        // }, []);
-
-        // console.log(values);
         let {
             values,
             hasValidControls
         } = reduceControl(this.props);
 
         inspect(values, hasValidControls);
-
-        // this.setState((state, props) => {
-
-        //     let {
-        //         value
-        //     } = state;
-
-        //     switch (this.rulesClassify()) {
-        //         case 'fn':
-        //             result = Boolean(rules());
-        //             break;
-        //         case 'reg':
-        //             result = rules.test(value);
-        //             break;
-        //         case 'undefined':
-        //             result = true;
-        //             break;
-        //         case 'null':
-        //             result = value === '';
-        //             break;
-        //         default:
-        //             result = rules == value;
-        //     }
-
-        //     return {
-        //         result,
-        //         errorShow: !result
-        //     }
-
-        // });
 
     }
 
@@ -200,6 +146,9 @@ export default class ComplexBase extends Base {
  **
  *整合values
  *整合验证条件rules
+ *@pramas props
+ *@return [values] {array} values
+ *@return [hasValidControls] {array} controls
  */
 function reduceControl(props) {
 
@@ -234,9 +183,9 @@ function reduceControl(props) {
         } = control;
 
         if (referName === name && referType === type) {
-            if (required || minNum > 0 || maxNum < Infinity || rules() !== RULES_FUNC)
+            if (required || minNum > 0 || maxNum < Infinity || rules.RULES_FUNC !== RULES_FUNC) //有验证才会聚合
                 pre.hasValidControls.push(control);
-            if (checked)
+            if (checked) //选中才会添加到values
                 pre.values.push(value);
         }
         return pre;
@@ -248,6 +197,12 @@ function reduceControl(props) {
 
 }
 
+/*
+ **
+ *检测复用组件checkbox 各个组件结合values是否通过验证
+ *@parmas [values] {array}
+ *@parmas [controls] {reactElement}
+ */
 function inspect(values, controls) {
 
     let num = values.length;
@@ -272,8 +227,9 @@ function inspect(values, controls) {
         let requiredPass = required ? Boolean(num) : true;
         let maxNumPass = maxNum >= num;
         let minNumPass = num >= minNum;
-        console.log(controls, requiredPass, maxNumPass, minNumPass);
-        if (requiredPass && maxNumPass && minNumPass) { //验证通过
+        let rulesPass = rules.RULES_FUNC === RULES_FUNC ? true : rules(values) === true;
+
+        if (requiredPass && maxNumPass && minNumPass && rulesPass) { //验证通过
             control.setState(() => ({
                 result: true,
                 errorShow: false

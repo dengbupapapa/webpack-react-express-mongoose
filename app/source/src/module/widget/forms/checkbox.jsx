@@ -1,7 +1,7 @@
 import {
     Component
 } from 'react';
-import ComplexBase from './complexBase';
+import CheckboxBase from './checkboxBase';
 
 import {
     formsWidgetNamesArray
@@ -13,9 +13,9 @@ export default class Checkbox extends Component {
 
     render() {
         return (
-            <ComplexBase {...this.props} isCheckbox>
+            <CheckboxBase {...this.props} isCheckbox>
                 <input type="checkbox"/>
-            </ComplexBase>
+            </CheckboxBase>
         )
 
     }
