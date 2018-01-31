@@ -65,7 +65,6 @@ class CreationDetail extends Component {
     submithandle(event, {
         values
     }) {
-        event.preventDefault();
         console.log(values);
     }
 
@@ -83,7 +82,11 @@ class CreationDetail extends Component {
 
     handleClick(event) {
         event.preventDefault();
-        console.log(method.valid());
+        method.valid(null,(result) => {
+            console.log(result)
+        }).then((result) => {
+            console.log(result)
+        });
         console.log(method.getValues());
         // console.log(method.getControls()[0].verifier.toString());
         // this.setState({demo:!this.state.demo})
@@ -129,7 +132,6 @@ class CreationDetail extends Component {
                         rules={/^\d+$/}
                         errorMessage="请输入数字"
                         onlyBlurThrow
-                        team='team2'
                     />
                     <Input
                         name="name1"
@@ -137,13 +139,19 @@ class CreationDetail extends Component {
                         defaultValue="12312312s"
                         rules={/^\d{3}$/}
                         errorMessage="就是一直报错"
-                        team='team1'
                     />
                     asd
                     <div onClick={this.handleClick.bind(this)}>123</div>
                     <input type="submit" defaultValue="submit"/>
                 </Form>
                 <Form onSubmit={this.submithandle.bind(this)} className="formasd">
+                   <Input
+                        name="name1"
+                        className="formasd"
+                        defaultValue="12312312s"
+                        rules={/^\d{3}$/}
+                        errorMessage="就是一直报错"
+                    />
                 </Form>
                 <input type="text" value={this.state.value} onChange={this.handleChange.bind(this)} />
                 {

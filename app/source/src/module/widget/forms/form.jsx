@@ -37,13 +37,12 @@ export default class Form extends Component {
 
     getChildContext() {
         return {
-            reactFormsTeam: this.props.team
+            reactFormsTeam: this.state.team
         }
     }
 
     static defaultProps = {
-        onSubmit: () => {},
-        team: Math.floor(new Date().getTime() * Math.random()).toString()//Symbol('FORM_DEFAULT_TEAM')
+        onSubmit: () => {}
     }
 
     static propTypes = {
@@ -57,7 +56,8 @@ export default class Form extends Component {
     constructor(props, a) {
         super(props);
         this.state = {
-            validArray: []
+            validArray: [],
+            team: this.props.team||Symbol('FORM_DEFAULT_TEAM')
         }
     }
 
@@ -75,13 +75,16 @@ export default class Form extends Component {
         event.preventDefault();
 
         let {
-            onSubmit,
-            team
+            onSubmit
         } = this.props;
-
+        let {
+            team
+        } = this.state;
         //验证通过才执行自定义
-        if (valid(team)) onSubmit(event, {
-            values: getValues(team)
+        valid(team).then((result) => {
+            if (result) onSubmit(event, {
+                values: getValues(team)
+            })
         });
 
     }

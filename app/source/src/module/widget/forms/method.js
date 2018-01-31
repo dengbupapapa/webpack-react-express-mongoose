@@ -101,7 +101,6 @@ export async function valid(team, callback) {
             }
 
         }
-
         return pre;
 
     }, controlResultPromise);
