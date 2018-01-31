@@ -120,7 +120,7 @@ export default class ComplexBase extends Base {
                 belongToControlsArray
             } = reduceControl(this.props);
 
-            Promise.all(controlsSetStatePromiseArray).then((checkedArray) => {
+            return Promise.all(controlsSetStatePromiseArray).then((checkedArray) => {
                 let checked = checkedArray.includes(true);
                 let value = undefined;
                 if (checked) {
@@ -193,7 +193,7 @@ function reduceControl(props, isControlled, referValue) {
         RADIOS
     } = controlStorePosition;
     let {
-        [ALONES]: alonesControl, [CHECKBOXS]: checkboxsControl, [RADIOS]: radioControl,
+        [ALONES]: alonesControl=[], [CHECKBOXS]: checkboxsControl=[], [RADIOS]: radioControl=[],
     } = controlStore();
 
     return radioControl.reduce((pre, control) => {

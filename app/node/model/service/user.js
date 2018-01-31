@@ -67,7 +67,7 @@ userSchema.path('hashed_password').validate(function(value) {
     assert.equal(this.password, this.confirmPassword);
     return true;
 }, '两次密码不相同！');
-
+console.log(userSchema.path('hashed_password').validate.toString());
 userSchema.path('hashed_password').required(true, '用户密码不能为空！');
 
 userSchema.path('email').required(true, '用户邮箱不能为空！');

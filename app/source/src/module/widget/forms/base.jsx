@@ -117,6 +117,8 @@ export default class Base extends Component {
 
         }
 
+
+
     }
 
     componentDidMount() {
@@ -131,8 +133,26 @@ export default class Base extends Component {
 
     }
 
-    componentWillUpdate(prevProps, prevState) {
-        // console.log(this.props.name,'update');
+    componentDidUpdate(prevProps, prevState) {
+        let {
+            value,
+            checked,
+            rules,
+            required,
+            minNum,
+            maxNum
+        } = this.props;
+        if (
+            prevProps.value != value ||
+            prevProps.checked != checked ||
+            prevProps.rules.toString() != rules.toString() ||
+            prevProps.required != required ||
+            prevProps.minNum != minNum ||
+            prevProps.maxNum != maxNum
+        ) {
+            this.verifier();
+        }
+
     }
 
     render() {
@@ -382,7 +402,6 @@ function controlStorePositionFn(props) {
         isCheckbox,
         isRadio
     } = props;
-
 
     if (isCheckbox) {
         position = CHECKBOXS;

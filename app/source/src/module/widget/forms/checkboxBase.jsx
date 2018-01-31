@@ -166,7 +166,7 @@ function reduceControl(props) {
         RADIOS
     } = controlStorePosition;
     let {
-        [ALONES]: alonesControl, [CHECKBOXS]: checkboxsControl, [RADIOS]: radioControl,
+        [ALONES]: alonesControl=[], [CHECKBOXS]: checkboxsControl=[], [RADIOS]: radioControl=[],
     } = controlStore();
 
     return checkboxsControl.reduce((pre, control) => {

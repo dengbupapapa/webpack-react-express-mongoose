@@ -63,7 +63,7 @@ router.post('/register', async (req, res, next) => { //注册
             sign: '注册e',
             messages: e
         });
-        // next(e);
+
     }
 
 });

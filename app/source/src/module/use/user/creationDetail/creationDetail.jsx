@@ -12,8 +12,8 @@ import './creationDetail.less';
 
 import ContextDemo from './contextDemo.jsx';
 
-class InputDemo extends Component{
-    render(){
+class InputDemo extends Component {
+    render() {
         return (
             <div>
                 <Input team="team2" name="name4" className="formasd" defaultValue="12312312s" rules={/^\d{3}$/} errorMessage="就是一直报错"/>
@@ -28,37 +28,43 @@ class CreationDetail extends Component {
         super(props);
         this.state = {
             value: '',
-            demo:true,
-            radio1:true,
-            radio2:false,
-            checkbox1:false,
-            checkbox2:false,
-            className:'asdasdsa21312'
+            demo: true,
+            radio1: true,
+            radio2: false,
+            checkbox1: false,
+            checkbox2: false,
+            className: 'asdasdsa21312',
+            fun: () => false
         };
     }
 
     componentDidMount() {
+        setTimeout(() => {
+            this.setState(() => ({
+                className: '456yhjk',
+                fun: () => true
+            }));
+        }, 1000)
 
-            // this.setState({
-            //     className:'456yhjk'
-            // });
-            // console.log(this.state.className);
-            // this.setState({},(...a)=>{
-            //     console.log(a);
-            // })
-            //         function setStateAsync(state) {
-            //             return new Promise((resolve) => {
-            //                 this.setState(resolve);
-            //             });
-            //         }
+        // console.log(this.state.className);
+        // this.setState({},(...a)=>{
+        //     console.log(a);
+        // })
+        //         function setStateAsync(state) {
+        //             return new Promise((resolve) => {
+        //                 this.setState(resolve);
+        //             });
+        //         }
 
-            //         setStateAsync.call(this).then(function(...a){
-            //             console.log(a);
-            //         })
+        //         setStateAsync.call(this).then(function(...a){
+        //             console.log(a);
+        //         })
 
     }
 
-    submithandle(event,{values}) {
+    submithandle(event, {
+        values
+    }) {
         event.preventDefault();
         console.log(values);
     }
@@ -75,7 +81,7 @@ class CreationDetail extends Component {
         // });
     }
 
-    handleClick(event){
+    handleClick(event) {
         event.preventDefault();
         console.log(method.valid());
         console.log(method.getValues());
@@ -83,24 +89,24 @@ class CreationDetail extends Component {
         // this.setState({demo:!this.state.demo})
     }
 
-    selectonchange(event){
+    selectonchange(event) {
         console.log(event);
         // this.control.focus()
     }
 
-    handleradio(e){
+    handleradio(e) {
         // console.log(e.target.checked)
         // this.setState({
         //     [e.target.name]:e.target.checked
         // });
     }
-    handleradio1(e){
+    handleradio1(e) {
         // console.log(e.target.checked);
         // this.setState({
         //     radio1:e.target.checked
         // });
     }
-    handleradio2(e){
+    handleradio2(e) {
         // console.log(e.target.checked);
         // this.setState({
         //     radio2:e.target.checked
@@ -149,7 +155,7 @@ class CreationDetail extends Component {
                         onBlur={this.handleBlur.bind(this)}
                         value="12312312ss"
                         placeholder="写点啥"
-                        rules={/^\d+$/}
+                        rules={this.state.fun}
                         errorMessage="请输入数字"
                         onlyBlurThrow
                     />
