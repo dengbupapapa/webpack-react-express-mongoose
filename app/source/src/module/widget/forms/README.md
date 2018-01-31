@@ -1,3 +1,5 @@
+### install
+	npm install react-valid-forms --save
 ### module
 	import {
     	Form,
